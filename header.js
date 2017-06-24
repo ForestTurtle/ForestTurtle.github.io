@@ -50,40 +50,14 @@ Creates Card objects that populate the deck accordingly. There's probably a nice
 function createSuite(color) {
   for (i = 1; i < 6; i++)
   {
-    if(i == 1)
-    {
-         c = new Card(color,i);
-         deck.push(c);
-         deck.push(c);
-         deck.push(c);
-    }
-    else if(i == 2)
-    {
-         c = new Card(color,i);
-         deck.push(c);
-         deck.push(c);
-    }
-    else if (i == 3)
-    {
-         c = new Card(color,i);
-         deck.push(c);
-         deck.push(c);
-    }
-    else if (i == 4)
-    {
-
-         c = new Card(color,i);
-         deck.push(c);
-         deck.push(c);
-    }
-    else
-    {
-
-         c = new Card(color,i);
-         deck.push(c);
-    }
-  }
-
+     c = new Card(color,i);
+     deck.push(c);
+     if (i < 5){
+	     deck.push(c);
+	     if(i == 1){
+	     	deck.push(c);
+	     }
+     }
 }
 
 /*
