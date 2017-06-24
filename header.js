@@ -131,13 +131,6 @@ function giveInfo(player, cardNo, color){
 
 //-----------------------------------------------
 
-
-function drawLine(){
-	ctx.moveTo(0,0);
-	ctx.lineTo(200,100);
-	ctx.stroke(); 
-}
-
 /*
 renders the entire board
 */
@@ -212,16 +205,18 @@ loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y){
 	for (var i = 0; i < hitAreas.length; i++) {
-		if (collides(hitAreas[i])){
+		if (collides(x, y, hitAreas[i])){
+			console.log("hit "+i);
 			hitAreas[i].action();
+
 		}
 	}
 }
 
 //is a point in a rect?
-function collides(xp, yp, x, y, w, h){
-	if (x < xp && x+w > xp) {
-		if (y < yp && y+h > yp) {
+function collides(xp, yp, hitArea){
+	if (hitArea.x < xp && hitArea.x+hitArea.w > xp) {
+		if (hitArea.y < yp && hitArea.y+hitArea.h > yp) {
 			return true;
 		}
 	}
