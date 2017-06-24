@@ -33,7 +33,82 @@ shuffles deck
 */
 function initializeDeck(){
 
+	createSuite("red");
+	createSuite("white");
+	createSuite("blue");
+	createSuite("green");
+	createSuite("yellow");
+
+	deck = shuffle(deck);
+
 }
+
+/*
+Creates Card objects that populate the deck accordingly. There's probably a nicer way to do this but eh.
+*/
+
+function createSuite(color) {
+  for (i = 1; i < 6; i++)
+  {
+    if(i == 1)
+    {
+         c = new Card(color,i);
+         deck.push(c);
+         deck.push(c);
+         deck.push(c);
+    }
+    else if(i == 2)
+    {
+         c = new Card(color,i);
+         deck.push(c);
+         deck.push(c);
+    }
+    else if (i == 3)
+    {
+         c = new Card(color,i);
+         deck.push(c);
+         deck.push(c);
+    }
+    else if (i == 4)
+    {
+
+         c = new Card(color,i);
+         deck.push(c);
+         deck.push(c);
+    }
+    else
+    {
+
+         c = new Card(color,i);
+         deck.push(c);
+    }
+  }
+
+}
+
+/*
+Shamelessly stolen array shuffling code 
+*/
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 
 /*
 draw the correct number of cards to each players hands
