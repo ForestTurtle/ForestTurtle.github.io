@@ -135,6 +135,8 @@ function giveInfo(player, cardNo, color){
 renders the entire board
 */
 function render(){
+	//clear rect
+	ctx.clearRect(0,0,200,200);
 	//draw player hands
 	for (var i = 0; i < numPlayers; i++) {
 		drawHand(i);
@@ -197,6 +199,10 @@ function initializeHitAreas(){
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
 		drawDiscardedCards();
+		hitAreas.push(new HitArea(100, 10, 80, 80, function(){
+			render();
+			hitAreas.pop(); 
+		}));
 	}));
 }
 
@@ -204,13 +210,12 @@ function initializeHitAreas(){
 loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y){
-	for (var i = 0; i < hitAreas.length; i++) {
-		if (collides(x, y, hitAreas[i])){
-			console.log("hit "+i);
-			hitAreas[i].action();
+	hitAreas.forEach(function(item, index){
+		if (collides(x, y, item)){
+			item.action();
 
 		}
-	}
+	});
 }
 
 //is a point in a rect?
