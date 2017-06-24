@@ -4,9 +4,9 @@ var livesLeft = 0;
 var ctx;
 
 var deck = [];
+var hands = [new Array(5), new Array(5), new Array(5), new Array(5)];
 var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 var discard = [];
-var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 
 var hitAreas = [];
 
@@ -101,6 +101,14 @@ draw the correct number of cards to each players hands
 */
 function initializeHands(){
 
+	for(i = 0; i < 5; i++)
+	{
+		for(j = 0; j < hands.length; j++)
+	 	{
+			hands[j][i] = deck.pop();
+		}
+	}
+
 }
 
 //-----------------------------------------------
@@ -110,14 +118,39 @@ player and card being the player number and the order of the card in his hand
 */
 function drawCard(player, cardPos){
 
+	c = deck.pop();
+
+	if(c == 'undefined')
+	{
+		//Game over condition triggered
+	}
+
+	hands[player][cardPos] = c;
 }
 
 function discardCard(player, cardPos){
+
+	if(numInfoTokens == 8)
+	{
+		//Prevent player from doing action
+	}
+	else
+	{
+    	discard.push(hands[player][cardPos]);
+		drawCard(player,cardPos);
+		numInfoTokens++;
+	} 
 
 }
 
 function rearrange(player, cardPos, newPos){
 
+	temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
+
+	hands[player][cardPos] = hands[player][newPos];
+
+	hands[player][newPos] = temp;
+		
 }
 
 function playCard(player, cardPos){
