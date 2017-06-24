@@ -101,6 +101,14 @@ draw the correct number of cards to each players hands
 */
 function initializeHands(){
 
+	for(i = 0; i < 5; i++)
+	{
+		for(j = 0; j < hands.length; j++)
+	 	{
+			hands[j][i] = deck.pop();
+		}
+	}
+
 }
 
 //-----------------------------------------------
