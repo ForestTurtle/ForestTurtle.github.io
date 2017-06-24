@@ -8,35 +8,21 @@
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
-	canvas.addEventListener('mousemove', function(event) {
-	  if(event.region) {
-	    alert('ouch, my eye :(');
-	  }
-	});
+	canvasRect = canvas.getBoundingClientRect();
 
-	ctx.beginPath();
-	ctx.arc(100, 100, 75, 0, 2 * Math.PI, false);
-	ctx.lineWidth = 5;
-	ctx.stroke();
-
-	// eyes
-	ctx.beginPath();
-	ctx.arc(70, 80, 10, 0, 2 * Math.PI, false);
-	ctx.arc(130, 80, 10, 0, 2 * Math.PI, false);
-	ctx.fill();
-	ctx.addHitRegion({id: "eyes"});
-
-	// mouth
-	ctx.beginPath();
-	ctx.arc(100, 110, 50, 0, Math.PI, false);
-	ctx.stroke();
-
-	ctx.beginPath();
+	canvas.addEventListener('click', function(event) {
+    var x = event.pageX,
+        y = event.pageY;
+    console.log(x-canvasRect.left, y-canvasRect.top);
+    });
 
 });
 </script>
 </head>
 <body>
-	<canvas id="canvas"></canvas>
+	<p>
+	moving the canvas down
+	</p>
+	<canvas style="border-style: solid" id="canvas"></canvas>
 </body>
 </html>

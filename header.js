@@ -1,3 +1,4 @@
+var canvasRect;
 numPlayers = 0;
 numInfoTokens = 0;
 livesLeft = 0;
@@ -14,12 +15,14 @@ class Card {
 	}
 }
 
+
 //-----------------------------------------------
 
 /*
 called at the beginning of every game to start it up
 */
-function initialize(){
+function initialize(canvas){
+	canvasRect = canvas.getBoundingClientRect();
 	initializeDeck();
 	initializeHands();
 }
@@ -67,6 +70,7 @@ function giveInfo(player, cardNo, color){
 
 //-----------------------------------------------
 
+
 function drawLine(ctx){
 	ctx.moveTo(0,0);
 	ctx.lineTo(200,100);
@@ -86,38 +90,38 @@ function render(ctx){
 /*
 draws the hand of the player selected
 */
-function drawHand(player){
+function drawHand(player, ctx){
 
 }
 
 /*
 draws the table in the middle
 */
-function drawTable(){
+function drawTable(ctx){
 
 }
 
 /*
 Draws the discarded pile to to screen
 */
-function drawDiscarded(){
+function drawDiscarded(ctx){
 
 }
 
 /*
 draw all the static images
 */
-function drawUI(){
+function drawUI(ctx){
 
 }
 
-function drawInfoCounter() {
+function drawInfoCounter(ctx) {
 
 }
 
 /*
 draws the bomb and string
 */
-function drawLives(){
+function drawLives(ctx){
 
 }
