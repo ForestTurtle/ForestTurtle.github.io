@@ -3,7 +3,7 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-			$(document).ready(function(){
+		$(document).ready(function(){
 
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
@@ -11,9 +11,10 @@
 	canvasRect = canvas.getBoundingClientRect();
 
 	canvas.addEventListener('click', function(event) {
-    var x = event.pageX,
-        y = event.pageY;
-    console.log(x-canvasRect.left, y-canvasRect.top);
+	    var x = event.pageX,
+	        y = event.pageY;
+	    console.log(x-canvasRect.left, y-canvasRect.top);
+	    checkForHit(x-canvasRect.left, y-canvasRect.top);
     });
 
 });
@@ -26,3 +27,6 @@
 	<canvas style="border-style: solid" id="canvas"></canvas>
 </body>
 </html>
+
+//clickables
+each player's hand, discard piles, 

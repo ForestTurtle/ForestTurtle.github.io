@@ -1,12 +1,14 @@
-var canvasRect;
-numPlayers = 0;
-numInfoTokens = 0;
-livesLeft = 0;
+var numPlayers = 0;
+var numInfoTokens = 0;
+var livesLeft = 0;
+var ctx;
 
-deck = [];
-hands = [[]];
-discard = [];
-table = [new array(5), new array(5), new array(5), new array(5), new array(5)];
+var deck = [];
+var hands = [[]];
+var discard = [];
+var table = [new array(5), new array(5), new array(5), new array(5), new array(5)];
+
+var hitAreas = [];
 
 class Card {
 	constructor(color, number){
@@ -15,16 +17,26 @@ class Card {
 	}
 }
 
+class HitArea {
+	constructor(x, y, w, h, action){
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.action = action;
+	}
+}
 
 //-----------------------------------------------
 
 /*
 called at the beginning of every game to start it up
 */
-function initialize(canvas){
-	canvasRect = canvas.getBoundingClientRect();
-	initializeDeck();
-	initializeHands();
+function initialize(canvasContext){
+	// initializeDeck();
+	// initializeHands();
+	initializeHitAreas();
+	ctx = canvasContext;
 }
 
 /*
@@ -44,20 +56,20 @@ function initializeDeck(){
 }
 
 /*
-Creates Card objects that populate the deck accordingly. There's probably a nicer way to do this but eh.
+adds a specific color to the deck
 */
 
 function createSuite(color) {
-  for (i = 1; i < 6; i++)
-  {
-     c = new Card(color,i);
-     deck.push(c);
-     if (i < 5){
-	     deck.push(c);
-	     if(i == 1){
-	     	deck.push(c);
-	     }
-     }
+	for (i = 1; i < 6; i++) {
+		c = new Card(color,i);
+		deck.push(c);
+		if (i < 5){
+			deck.push(c);
+			if(i == 1){
+				deck.push(c);
+			}
+		}
+	}
 }
 
 /*
@@ -120,7 +132,7 @@ function giveInfo(player, cardNo, color){
 //-----------------------------------------------
 
 
-function drawLine(ctx){
+function drawLine(){
 	ctx.moveTo(0,0);
 	ctx.lineTo(200,100);
 	ctx.stroke(); 
@@ -129,48 +141,89 @@ function drawLine(ctx){
 /*
 renders the entire board
 */
-function render(ctx){
+function render(){
 	//draw player hands
 	for (var i = 0; i < numPlayers; i++) {
 		drawHand(i);
 	}
+	drawDiscarded();
 }
 
 /*
 draws the hand of the player selected
 */
-function drawHand(player, ctx){
+function drawHand(player){
 
 }
 
 /*
 draws the table in the middle
 */
-function drawTable(ctx){
+function drawTable(){
 
 }
 
 /*
-Draws the discarded pile to to screen
+Draws the discarded pile to to screen (not all the cards, just the pile)
 */
-function drawDiscarded(ctx){
+function drawDiscarded(){
+	ctx.fillRect(10,10,80,80);
+}
 
+/*
+Draws all the cards in the discared pile
+*/
+function drawDiscardedCards(ct){
+	ctx.fillRect(100,10,80,80);
 }
 
 /*
 draw all the static images
 */
-function drawUI(ctx){
+function drawUI(){
 
 }
 
-function drawInfoCounter(ctx) {
+function drawInfoCounter() {
 
 }
 
 /*
 draws the bomb and string
 */
-function drawLives(ctx){
+function drawLives(){
 
+}
+
+//--------------------------------
+
+/*
+
+*/
+function initializeHitAreas(){
+	//the discard pile
+	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
+		drawDiscardedCards();
+	}));
+}
+
+/*
+loop through the hit areas are does the apprpriate action. The control
+*/
+function checkForHit(x, y){
+	for (var i = 0; i < hitAreas.length; i++) {
+		if (collides(hitAreas[i])){
+			hitAreas[i].action();
+		}
+	}
+}
+
+//is a point in a rect?
+function collides(xp, yp, x, y, w, h){
+	if (x < xp && x+w > xp) {
+		if (y < yp && y+h > yp) {
+			return true;
+		}
+	}
+	return false;
 }
