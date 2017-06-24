@@ -3,7 +3,8 @@ var numInfoTokens = 0;
 var livesLeft = 0;
 var ctx;
 
-var deck = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];;
+var deck = [];
+var hands = [new Array(5), new Array(5), new Array(5), new Array(5)];
 var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 var discard = [];
 
@@ -117,9 +118,29 @@ player and card being the player number and the order of the card in his hand
 */
 function drawCard(player, cardPos){
 
+	c = deck.pop();
+
+	if(c == 'undefined')
+	{
+		//Game over condition triggered
+	}
+
+	hands[player][cardPos] = c;
 }
 
 function discardCard(player, cardPos){
+
+	if(numInfoTokens == 8)
+	{
+		//Prevent player from doing action
+	}
+	else
+	{
+		c = hands[player][cardPos];
+		discard.push(c);
+		drawCard(player,cardPos);
+		numInfoTokens++;
+	} 
 
 }
 
