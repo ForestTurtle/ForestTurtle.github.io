@@ -4,9 +4,9 @@ var livesLeft = 0;
 var ctx;
 
 var deck = [];
-var hands = [[]];
+var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 var discard = [];
-var table = [new array(5), new array(5), new array(5), new array(5), new array(5)];
+var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 
 var hitAreas = [];
 
