@@ -8,10 +8,9 @@ discard = [];
 table = [new array(5), new array(5), new array(5), new array(5), new array(5)];
 
 class Card {
-	constructor(color, number, location){
+	constructor(color, number){
 		this.color = color;
 		this.number = number;
-		this.location = location;
 	}
 }
 
