@@ -201,7 +201,7 @@ function initializeHitAreas(){
 		drawDiscardedCards();
 		hitAreas.push(new HitArea(100, 10, 80, 80, function(){
 			render();
-			hitAreas.pop(); 
+			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
 		}));
 	}));
 }
