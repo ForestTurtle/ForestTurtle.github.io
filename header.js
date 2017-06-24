@@ -136,8 +136,7 @@ function discardCard(player, cardPos){
 	}
 	else
 	{
-		c = hands[player][cardPos];
-		discard.push(c);
+    	discard.push(hands[player][cardPos]);
 		drawCard(player,cardPos);
 		numInfoTokens++;
 	} 
@@ -146,6 +145,12 @@ function discardCard(player, cardPos){
 
 function rearrange(player, cardPos, newPos){
 
+	temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
+
+	hands[player][cardPos] = hands[player][newPos];
+
+	hands[player][newPos] = temp;
+		
 }
 
 function playCard(player, cardPos){
