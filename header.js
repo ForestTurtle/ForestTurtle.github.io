@@ -3,10 +3,9 @@ var numInfoTokens = 0;
 var livesLeft = 0;
 var ctx;
 
-var deck = [];
+var deck = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];;
 var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 var discard = [];
-var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 
 var hitAreas = [];
 
