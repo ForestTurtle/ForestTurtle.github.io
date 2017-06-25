@@ -44,7 +44,6 @@ load the deck with 3 of each color 1, 2 of each color 2-4 and 1 of each color 5
 shuffles deck
 */
 function initializeDeck(){
-
 	createSuite("red");
 	createSuite("white");
 	createSuite("blue");
@@ -61,12 +60,12 @@ adds a specific color to the deck
 
 function createSuite(color) {
 	for (i = 1; i < 6; i++) {
-		c = new Card(color,i);
-		deck.push(c);
-		if (i < 5){
-			deck.push(c);
-			if(i == 1){
-				deck.push(c);
+		card = new Card(color,i);
+		deck.push(card);
+		if (i < 5) {
+			deck.push(card);
+			if (i == 1) {
+				deck.push(card);
 			}
 		}
 	}
@@ -81,7 +80,6 @@ function shuffle(array) {
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -101,10 +99,8 @@ draw the correct number of cards to each players hands
 */
 function initializeHands(){
 
-	for(i = 0; i < 5; i++)
-	{
-		for(j = 0; j < hands.length; j++)
-	 	{
+	for (i = 0; i < 5; i++) {
+		for (j = 0; j < hands.length; j++) {
 			hands[j][i] = deck.pop();
 		}
 	}
@@ -118,24 +114,21 @@ player and card being the player number and the order of the card in his hand
 */
 function drawCard(player, cardPos){
 
-	c = deck.pop();
+	card = deck.pop();
 
-	if(c == 'undefined')
-	{
+	if (card == 'undefined') {
 		//Game over condition triggered
 	}
 
-	hands[player][cardPos] = c;
+	hands[player][cardPos] = card;
 }
 
 function discardCard(player, cardPos){
 
-	if(numInfoTokens == 8)
-	{
+	if (numInfoTokens == 8) {
 		//Prevent player from doing action
 	}
-	else
-	{
+	else {
     	discard.push(hands[player][cardPos]);
 		drawCard(player,cardPos);
 		numInfoTokens++;
