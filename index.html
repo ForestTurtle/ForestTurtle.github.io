@@ -6,6 +6,11 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#lobby').hide();
+		});
+	</script>
 
 <title>Hanabi</title>
 <h1>Hanabi</h1>
@@ -16,7 +21,12 @@
 	<center>
 	<div class="btn-group-vertical" role="group" aria-label="...">
 		<button type="button" class="btn btn-default" onclick="window.location='game.html'">Play Solo</button>
-		<button type="button" class="btn btn-default" onclick="window.location=''">Play with Friend</button>
+		<button type="button" class="btn btn-default" onclick="$('#lobby').fadeToggle();">Play with Friend</button>
+		<div id="lobby">
+		<span class="btn-default">Lobby Name</span>
+		<input type="text" name=""/> 
+		<button class="btn btn-default">Go!</button>
+		</div>
 		<button type="button" class="btn btn-default" onclick="window.location='instructions.html'">How to Play</button>
 	</div>
 	</center>
