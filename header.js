@@ -32,7 +32,7 @@ class HitArea {
 /*
 called at the beginning of every game to start it up
 */
-function initialize(canvasContext){
+function initialize(canvasContext) {
 	// initializeDeck();
 	// initializeHands();
 	initializeHitAreas();
@@ -43,7 +43,7 @@ function initialize(canvasContext){
 load the deck with 3 of each color 1, 2 of each color 2-4 and 1 of each color 5 
 shuffles deck
 */
-function initializeDeck(){
+function initializeDeck() {
 	createSuite("red");
 	createSuite("white");
 	createSuite("blue");
@@ -97,7 +97,7 @@ function shuffle(array) {
 /*
 draw the correct number of cards to each players hands
 */
-function initializeHands(){
+function initializeHands() {
 
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < hands.length; j++) {
@@ -112,7 +112,7 @@ function initializeHands(){
 /*
 player and card being the player number and the order of the card in his hand
 */
-function drawCard(player, cardPos){
+function drawCard(player, cardPos) {
 
 	card = deck.pop();
 
@@ -123,7 +123,7 @@ function drawCard(player, cardPos){
 	hands[player][cardPos] = card;
 }
 
-function discardCard(player, cardPos){
+function discardCard(player, cardPos) {
 
 	if (numInfoTokens == 8) {
 		//Prevent player from doing action
@@ -136,7 +136,7 @@ function discardCard(player, cardPos){
 
 }
 
-function rearrange(player, cardPos, newPos){
+function rearrange(player, cardPos, newPos) {
 
 	temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
 
@@ -146,12 +146,12 @@ function rearrange(player, cardPos, newPos){
 		
 }
 
-function playCard(player, cardPos){
+function playCard(player, cardPos) {
 
 }
 
 /*the player to give info to*/
-function giveInfo(player, cardNo, color){
+function giveInfo(player, cardNo, color) {
 
 }
 
@@ -160,7 +160,7 @@ function giveInfo(player, cardNo, color){
 /*
 renders the entire board
 */
-function render(){
+function render() {
 	//clear rect
 	ctx.clearRect(0,0,200,200);
 
@@ -179,7 +179,7 @@ function render(){
 /*
 draws the hand of the player selected
 */
-function drawHand(player){
+function drawHand(player) {
 	// var img = new Image();
 	// img.src = "greenCard.jpg"
 	// img.onload = function () {
@@ -192,7 +192,7 @@ function drawHand(player){
 	drawCard(2, 'red', 600, 200, .75);
 }
 
-function drawCard(num, color, x, y, scale){
+function drawCard(num, color, x, y, scale) {
 	var img = new Image();
 	img.src = color+"Card.jpg"
 	img.onload = function () {
@@ -205,28 +205,28 @@ function drawCard(num, color, x, y, scale){
 /*
 draws the table in the middle
 */
-function drawTable(){
+function drawTable() {
 
 }
 
 /*
 Draws the discarded pile to to screen (not all the cards, just the pile)
 */
-function drawDiscarded(){
+function drawDiscarded() {
 	ctx.fillRect(10,10,80,80);
 }
 
 /*
 Draws all the cards in the discared pile
 */
-function drawDiscardedCards(ct){
+function drawDiscardedCards(ct) {
 	ctx.fillRect(100,10,80,80);
 }
 
 /*
 draw all the static images
 */
-function drawUI(){
+function drawUI() {
 
 }
 
@@ -254,7 +254,7 @@ function drawInfoCounter() {
 /*
 draws the bomb and string
 */
-function drawLives(){
+function drawLives() {
 
 }
 
@@ -263,7 +263,7 @@ function drawLives(){
 /*
 
 */
-function initializeHitAreas(){
+function initializeHitAreas() {
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
 		drawDiscardedCards();
@@ -277,8 +277,8 @@ function initializeHitAreas(){
 /*
 loop through the hit areas are does the apprpriate action. The control
 */
-function checkForHit(x, y){
-	hitAreas.forEach(function(item, index){
+function checkForHit(x, y) {
+	hitAreas.forEach(function(item, index) {
 		if (collides(x, y, item)){
 			item.action();
 
@@ -287,7 +287,7 @@ function checkForHit(x, y){
 }
 
 //is a point in a rect?
-function collides(xp, yp, hitArea){
+function collides(xp, yp, hitArea) {
 	if (hitArea.x < xp && hitArea.x+hitArea.w > xp) {
 		if (hitArea.y < yp && hitArea.y+hitArea.h > yp) {
 			return true;
