@@ -170,18 +170,29 @@ renders the entire board
 function render(){
 	//clear rect
 	ctx.clearRect(0,0,200,200);
+
+	drawUI();
 	//draw player hands
-	for (var i = 0; i < numPlayers; i++) {
-		drawHand(i);
-	}
+	// for (var i = 0; i < numPlayers; i++) {
+	// 	drawHand(i);
+	// }
+	drawHand(1);
+
+	drawInfoCounter();
+	drawLives();
 	drawDiscarded();
+	drawTable();
 }
 
 /*
 draws the hand of the player selected
 */
 function drawHand(player){
-
+	var img = new Image();
+	img.src = "greenCard.jpg"
+	img.onload = function () {
+	    ctx.drawImage(img, 200, 200);
+	}
 }
 
 /*
@@ -213,7 +224,24 @@ function drawUI(){
 }
 
 function drawInfoCounter() {
+	var centerx = 100;
+	var centery = 300;
+	var radius = 40;
 
+	ctx.fillStyle = "#3bff3b";
+	ctx.beginPath();
+	//x, y, r start angle, end angle
+	ctx.arc(centerx,centery,radius,0,2*Math.PI);
+	ctx.fill();
+
+	ctx.fillStyle = "#ff047a";
+	ctx.beginPath();
+	//x, y, r start angle, end angle
+	ctx.arc(centerx,centery,radius,0,1.75*Math.PI);
+	ctx.lineTo(centerx, centery);
+	ctx.fill();
+
+	ctx.fillStyle = "#000000";
 }
 
 /*
