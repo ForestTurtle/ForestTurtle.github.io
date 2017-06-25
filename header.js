@@ -146,8 +146,60 @@ function rearrange(player, cardPos, newPos) {
 		
 }
 
-function playCard(player, cardPos) {
+function playCard(player,cardPos) {
+	
+	played = hands[player][cardPos];
+  
+	switch(played.color) {
+	
+	case 'red':
+		evaluatePlayed(0,played);
+	    break;
 
+	case 'blue':
+		evaluatePlayed(1,played);
+		break;
+
+	case 'green':
+	  	evaluatePlayed(2,played);
+	   	break;
+
+	case 'yellow':
+	  	evaluatePlayed(3,played);
+	    break;
+
+	case 'white':
+	  	evaluatePlayed(4,played)
+	    break;
+	}
+  
+}
+
+function evaluatePlayed(tableNumber, played) {
+
+	if(typeof table[tableNumber][0] == 'undefined')
+	{
+  		if(played.number == 1)
+    	{
+			table[tableNumber][0] = played;
+    	}	
+    
+    	else
+    	{
+    		livesLeft--;
+		}
+  	}
+	else
+	{
+  		if(typeof table[tableNumber][played.number - 2] != 'undefined')
+    	{
+    		table[tableNumber][played.number-1] = played;
+    	}
+    	else
+    	{
+    		livesLeft--;
+    	}
+  	}
 }
 
 /*the player to give info to*/
