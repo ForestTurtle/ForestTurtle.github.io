@@ -177,7 +177,6 @@ function render(){
 	// 	drawHand(i);
 	// }
 	drawHand(1);
-
 	drawInfoCounter();
 	drawLives();
 	drawDiscarded();
@@ -188,10 +187,25 @@ function render(){
 draws the hand of the player selected
 */
 function drawHand(player){
+	// var img = new Image();
+	// img.src = "greenCard.jpg"
+	// img.onload = function () {
+	//     ctx.drawImage(img, 200, 200);
+	//     ctx.font = '70px serif';
+	//     ctx.fillText("5", 233, 310);
+	// }
+	drawCard(1, 'green', 200, 200, 1);
+	drawCard(2, 'blue', 350, 200, 2);
+	drawCard(2, 'red', 600, 200, .75);
+}
+
+function drawCard(num, color, x, y, scale){
 	var img = new Image();
-	img.src = "greenCard.jpg"
+	img.src = color+"Card.jpg"
 	img.onload = function () {
-	    ctx.drawImage(img, 200, 200);
+		ctx.drawImage(img, x, y, 100*scale, 150*scale);
+		ctx.font = 70*scale+'px serif';
+		ctx.fillText(num, x+33*scale, y+110*scale);
 	}
 }
 
