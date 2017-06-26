@@ -5,7 +5,7 @@ var ctx;
 
 var deck = [];
 var hands = [new Array(5), new Array(5), new Array(5), new Array(5)];
-var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
+var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | white
 var discard = [];
 
 var hitAreas = [];
@@ -35,6 +35,7 @@ called at the beginning of every game to start it up
 function initialize(canvasContext) {
 	// initializeDeck();
 	// initializeHands();
+	livesLeft = 3;
 	initializeHitAreas();
 	ctx = canvasContext;
 }
@@ -112,7 +113,7 @@ function initializeHands() {
 /*
 player and card being the player number and the order of the card in his hand
 */
-function drawCard(player, cardPos) {
+function draw(player, cardPos) {
 
 	card = deck.pop();
 
@@ -130,12 +131,15 @@ function discardCard(player, cardPos) {
 	}
 	else {
     	discard.push(hands[player][cardPos]);
-		drawCard(player,cardPos);
+		draw(player,cardPos);
 		numInfoTokens++;
 	} 
 
 }
 
+/* 
+Rearranges the array in order to move cards around in one's hand 
+*/
 function rearrange(player, cardPos, newPos) {
 
 	temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
@@ -145,6 +149,10 @@ function rearrange(player, cardPos, newPos) {
 	hands[player][newPos] = temp;
 		
 }
+
+/*
+Plays a card from one's hand to the board.
+*/
 
 function playCard(player,cardPos) {
 	
@@ -174,6 +182,10 @@ function playCard(player,cardPos) {
 	}
   
 }
+
+/*
+Helper function for playCard which determines whether the move is valid or not
+*/
 
 function evaluatePlayed(tableNumber, played) {
 
@@ -221,11 +233,12 @@ function render() {
 	// for (var i = 0; i < numPlayers; i++) {
 	// 	drawHand(i);
 	// }
+	drawTable();
 	drawHand(1);
-	drawInfoCounter();
+	drawInfoCounter(numInfoTokens);
 	drawLives();
 	drawDiscarded();
-	drawTable();
+
 }
 
 /*
@@ -239,9 +252,51 @@ function drawHand(player) {
 	//     ctx.font = '70px serif';
 	//     ctx.fillText("5", 233, 310);
 	// }
-	drawCard(1, 'green', 200, 200, 1);
-	drawCard(2, 'blue', 350, 200, 2);
-	drawCard(2, 'red', 600, 200, .75);
+	c = new Card('green',1);
+	deck.push(c);
+	draw(0,0);
+	cardNum = hands[0][0].number;
+	cardCol = hands[0][0].color;
+
+	//Center
+	drawCard(cardNum, cardCol, 380, 450, 0.4);
+	drawCard(2, 'blue', 430	, 450, 0.4);
+	drawCard(2, 'red', 480, 450, .4);
+	drawCard(2, 'green', 530, 450, .4);
+	drawCard(2, 'yellow', 580, 450, .4);
+
+	//Left Lower
+	drawCard(cardNum, cardCol, 50, 300, 0.4);
+	drawCard(2, 'blue', 100	, 300, 0.4);
+	drawCard(2, 'red', 150, 300, .4);
+	drawCard(2, 'green', 200, 300, .4);
+	drawCard(2, 'yellow', 250, 300, .4);
+
+	//Left Upper
+	drawCard(cardNum, cardCol, 50, 100, 0.4);
+	drawCard(2, 'blue', 100	, 100, 0.4);
+	drawCard(2, 'red', 150, 100, .4);
+	drawCard(2, 'green', 200, 100, .4);
+	drawCard(2, 'yellow', 250, 100, .4);
+
+	//Right Upper
+	drawCard(cardNum, cardCol, 700, 100, 0.4);
+	drawCard(2, 'blue', 750	, 100, 0.4);
+	drawCard(2, 'red', 800, 100, .4);
+	drawCard(2, 'green', 850, 100, .4);
+	drawCard(2, 'yellow', 900, 100, .4);
+
+	//Right Lower
+	drawCard(cardNum, cardCol, 700, 300, 0.4);
+	drawCard(2, 'blue', 750	, 300, 0.4);
+	drawCard(2, 'red', 800, 300, .4);
+	drawCard(2, 'green', 850, 300, .4);
+	drawCard(2, 'yellow', 900, 300, .4);
+
+
+
+
+
 }
 
 function drawCard(num, color, x, y, scale) {
@@ -258,6 +313,12 @@ function drawCard(num, color, x, y, scale) {
 draws the table in the middle
 */
 function drawTable() {
+
+	ctx.fillStyle = "#BFBFBF";
+	ctx.beginPath();
+	//x, y, r start angle, end angle
+	ctx.arc(495,300,280,0,2*Math.PI);
+	ctx.fill();
 
 }
 
@@ -281,22 +342,22 @@ draw all the static images
 function drawUI() {
 
 }
-
-function drawInfoCounter() {
+numInfoTokens = 8;
+function drawInfoCounter(numInfoTokens) {
 	var centerx = 100;
-	var centery = 300;
+	var centery = 500;
 	var radius = 40;
 
-	ctx.fillStyle = "#3bff3b";
+	ctx.fillStyle = "#ff047a";
 	ctx.beginPath();
 	//x, y, r start angle, end angle
 	ctx.arc(centerx,centery,radius,0,2*Math.PI);
 	ctx.fill();
 
-	ctx.fillStyle = "#ff047a";
+	ctx.fillStyle = "#3bff3b";
 	ctx.beginPath();
 	//x, y, r start angle, end angle
-	ctx.arc(centerx,centery,radius,0,1.75*Math.PI);
+	ctx.arc(centerx,centery,radius,0,(0.25*(numInfoTokens))*Math.PI);
 	ctx.lineTo(centerx, centery);
 	ctx.fill();
 
