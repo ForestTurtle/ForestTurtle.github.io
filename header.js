@@ -5,7 +5,7 @@ var ctx;
 
 var deck = [];
 var hands = [new Array(5), new Array(5), new Array(5), new Array(5)];
-var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | white
+var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
 var discard = [];
 
 var hitAreas = [];
@@ -33,9 +33,10 @@ class HitArea {
 called at the beginning of every game to start it up
 */
 function initialize(canvasContext) {
-	// initializeDeck();
+	initializeDeck();
 	// initializeHands();
 	livesLeft = 3;
+	numInfoTokens = 8;
 	initializeHitAreas();
 	ctx = canvasContext;
 }
@@ -46,7 +47,7 @@ shuffles deck
 */
 function initializeDeck() {
 	createSuite("red");
-	createSuite("white");
+	createSuite("purple");
 	createSuite("blue");
 	createSuite("green");
 	createSuite("yellow");
@@ -252,19 +253,27 @@ function drawHand(player) {
 	//     ctx.font = '70px serif';
 	//     ctx.fillText("5", 233, 310);
 	// }
+	/*
 	c = new Card('green',1);
 	deck.push(c);
 	draw(0,0);
-	cardNum = hands[0][0].number;
-	cardCol = hands[0][0].color;
+	*/
+	for(i = 0; i < 5; i++) 
+	{
+		draw(0,i);
+		alert(hands[0][i].number + hands[0][i].color);
+	}
+	
+
 
 	//Center
-	drawCard(cardNum, cardCol, 380, 450, 0.4);
-	drawCard(2, 'blue', 430	, 450, 0.4);
-	drawCard(2, 'red', 480, 450, .4);
-	drawCard(2, 'green', 530, 450, .4);
-	drawCard(2, 'yellow', 580, 450, .4);
+	drawCard(hands[0][0].number, hands[0][0].color, 380, 450, 0.4);
+	drawCard(hands[0][1].number, hands[0][1].color, 430	, 450, 0.4);
+	drawCard(hands[0][2].number, hands[0][2].color, 480, 450, 0.4);
+	drawCard(hands[0][3].number, hands[0][3].color, 530, 450, 0.4);
+	drawCard(hands[0][4].number, hands[0][4].color, 580, 450, 0.4);
 
+/*
 	//Left Lower
 	drawCard(cardNum, cardCol, 50, 300, 0.4);
 	drawCard(2, 'blue', 100	, 300, 0.4);
@@ -292,7 +301,7 @@ function drawHand(player) {
 	drawCard(2, 'red', 800, 300, .4);
 	drawCard(2, 'green', 850, 300, .4);
 	drawCard(2, 'yellow', 900, 300, .4);
-
+	*/
 
 
 }
@@ -399,6 +408,8 @@ function initializeHitAreas() {
 			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
 		}));
 	}));
+
+
 }
 
 /*
