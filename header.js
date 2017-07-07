@@ -400,7 +400,7 @@ function initializeHitAreas() {
 		}));
 	}));
 
-	for(let i = 0; i < 5; i++){
+	for(let i = 0; i < 5; i++){ //added let
 
 		hitAreas.push(new HitArea(380 + (50*i),450,40,60, function(){
 
