@@ -1,0 +1,23 @@
+{
+  "name": "hanabi",
+  "version": "1.0.0",
+  "description": "http://forestturtle.me",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ForestTurtle/ForestTurtle.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ForestTurtle/ForestTurtle.github.io/issues"
+  },
+  "homepage": "https://github.com/ForestTurtle/ForestTurtle.github.io#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
