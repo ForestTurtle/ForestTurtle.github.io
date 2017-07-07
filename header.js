@@ -4,7 +4,7 @@ var livesLeft = 0;
 var ctx;
 
 var deck = [];
-var hands = [new Array(5), new Array(5), new Array(5), new Array(5)];
+var hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
 var discard = [];
 
@@ -34,7 +34,7 @@ called at the beginning of every game to start it up
 */
 function initialize(canvasContext) {
 	initializeDeck();
-	// initializeHands();
+	initializeHands();
 	livesLeft = 3;
 	numInfoTokens = 8;
 	initializeHitAreas();
@@ -177,7 +177,7 @@ function playCard(player,cardPos) {
 	  	evaluatePlayed(3,played);
 	    break;
 
-	case 'white':
+	case 'purple':
 	  	evaluatePlayed(4,played)
 	    break;
 	}
@@ -228,14 +228,19 @@ renders the entire board
 function render() {
 	//clear rect
 	ctx.clearRect(0,0,200,200);
-	numInfoTokens = 8;
 	drawUI();
 	//draw player hands
 	// for (var i = 0; i < numPlayers; i++) {
 	// 	drawHand(i);
 	// }
 	drawTable();
+	drawHand(0);
 	drawHand(1);
+	drawHand(2);
+	drawHand(3);
+	drawHand(4);
+
+
 	drawLives(livesLeft);
 	drawInfoCounter(numInfoTokens);
 	drawDiscarded();
@@ -253,55 +258,41 @@ function drawHand(player) {
 	//     ctx.font = '70px serif';
 	//     ctx.fillText("5", 233, 310);
 	// }
-	/*
-	c = new Card('green',1);
-	deck.push(c);
-	draw(0,0);
-	*/
-	for(i = 0; i < 5; i++) 
-	{
-		draw(0,i);
-		alert(hands[0][i].number + hands[0][i].color);
-	}
-	
 
+	var xPos = 0;
+	var yPos = 0;
+
+	switch(player){
+		case 0: //Center
+			xPos = 380;
+			yPos = 450;
+			break; 
+		
+		case 1: //Lower Left
+			xPos = 100;
+			yPos = 300;
+			break;
+
+		case 2: //Upper Left
+			xPos = 100;
+			yPos = 100;
+			break;
+
+		case 3: //Upper Right
+			xPos = 700;
+			yPos = 100;
+			break;
+
+		case 4: //Lower Right
+			xPos = 700;
+			yPos = 300;
+			break;
+	}
 
 	//Center
-	drawCard(hands[0][0].number, hands[0][0].color, 380, 450, 0.4);
-	drawCard(hands[0][1].number, hands[0][1].color, 430	, 450, 0.4);
-	drawCard(hands[0][2].number, hands[0][2].color, 480, 450, 0.4);
-	drawCard(hands[0][3].number, hands[0][3].color, 530, 450, 0.4);
-	drawCard(hands[0][4].number, hands[0][4].color, 580, 450, 0.4);
-
-/*
-	//Left Lower
-	drawCard(cardNum, cardCol, 50, 300, 0.4);
-	drawCard(2, 'blue', 100	, 300, 0.4);
-	drawCard(2, 'red', 150, 300, .4);
-	drawCard(2, 'green', 200, 300, .4);
-	drawCard(2, 'yellow', 250, 300, .4);
-
-	//Left Upper
-	drawCard(cardNum, cardCol, 50, 100, 0.4);
-	drawCard(2, 'blue', 100	, 100, 0.4);
-	drawCard(2, 'red', 150, 100, .4);
-	drawCard(2, 'green', 200, 100, .4);
-	drawCard(2, 'yellow', 250, 100, .4);
-
-	//Right Upper
-	drawCard(cardNum, cardCol, 700, 100, 0.4);
-	drawCard(2, 'blue', 750	, 100, 0.4);
-	drawCard(2, 'red', 800, 100, .4);
-	drawCard(2, 'green', 850, 100, .4);
-	drawCard(2, 'yellow', 900, 100, .4);
-
-	//Right Lower
-	drawCard(cardNum, cardCol, 700, 300, 0.4);
-	drawCard(2, 'blue', 750	, 300, 0.4);
-	drawCard(2, 'red', 800, 300, .4);
-	drawCard(2, 'green', 850, 300, .4);
-	drawCard(2, 'yellow', 900, 300, .4);
-	*/
+	for(i = 0; i < 5; i++) {
+		drawCard(hands[player][i].number, hands[player][i].color, xPos + (50*i), yPos, 0.4);
+	}
 
 
 }
@@ -409,6 +400,74 @@ function initializeHitAreas() {
 		}));
 	}));
 
+	for(i = 0; i < 5; i++){
+
+		hitAreas.push(new HitArea(380 + (50*i),450,40,60, function(){
+
+			showOptions(0,i);
+			alert("asdf");
+
+		}));
+	}
+
+
+}
+
+function showOptions(player,cardPos) {
+
+	var xPos = 0;
+	var yPos = 0;
+
+	switch(player){
+		case 0: //Center
+			xPos = 380;
+			yPos = 450;
+			break; 
+		
+		case 1: //Lower Left
+			xPos = 100;
+			yPos = 300;
+			break;
+
+		case 2: //Upper Left
+			xPos = 100;
+			yPos = 100;
+			break;
+
+		case 3: //Upper Right
+			xPos = 700;
+			yPos = 100;
+			break;
+
+		case 4: //Lower Right
+			xPos = 700;
+			yPos = 300;
+			break;
+	}
+
+	xPos = xPos + (50* cardPos);
+
+	var radius = 8;
+
+	ctx.fillStyle = "#FDFEFE";
+
+	ctx.beginPath();
+	ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
+
+	ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
+
+	
+	ctx.font = "16px Arial"
+	ctx.fillStyle = "black";	
+	ctx.fillText("X",xPos+5,yPos-14)
+	ctx.fillText("P",xPos+25,yPos-14)
+	
+
+}
+
+function clearOptions() {
 
 }
 
