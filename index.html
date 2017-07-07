@@ -9,6 +9,15 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#lobby').hide();
+			$('#multi').click(function(){
+				$('#lobby').fadeToggle();
+			});
+			$('#game').click(function(){
+				window.location='game.html';
+			});
+			$('#instructions').click(function(){
+				window.location='instructions.html';
+			});
 		});
 	</script>
 
@@ -20,8 +29,8 @@
 <body>
 	<center>
 	<div class="btn-group-vertical" role="group" aria-label="...">
-		<button type="button" class="btn btn-default" onclick="window.location='game.html'">Play Solo</button>
-		<button type="button" class="btn btn-default" onclick="$('#lobby').fadeToggle();">Play with Friend</button>
+		<button type="button" class="btn btn-default" id="game">Play Solo</button>
+		<button type="button" class="btn btn-default" id="multi">Play with Friend</button>
 		<div id="lobby">
 		<span class="btn-default">Username</span>
 		<input type="text" name=""/>
@@ -31,7 +40,7 @@
 		<br/>
 		<button type="button" class="btn btn-default">Go!</button>
 		</div>
-		<button type="button" class="btn btn-default" onclick="window.location='instructions.html'">How to Play</button>
+		<button type="button" class="btn btn-default" id="instructions">How to Play</button>
 	</div>
 	</center>
 </body>
