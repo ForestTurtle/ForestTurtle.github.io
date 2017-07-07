@@ -32,13 +32,15 @@
 		<button type="button" class="btn btn-default" id="game">Play Solo</button>
 		<button type="button" class="btn btn-default" id="multi">Play with Friend</button>
 		<div id="lobby">
-		<span class="btn-default">Username</span>
-		<input type="text" name=""/>
-		<br/>
-		<span class="btn-default">Lobby Name</span>
-		<input type="text" name=""/> 
-		<br/>
-		<button type="button" class="btn btn-default">Go!</button>
+		<form method="post" action="/lobby.html">
+			<span class="btn-default">Username</span>
+			<input type="text" name="username"/>
+			<br/>
+			<span class="btn-default">Lobby Name</span>
+			<input type="text" name="lobbyName"/> 
+			<br/>
+			<input type="submit" class="btn-default" value="Submit">
+		</form>
 		</div>
 		<button type="button" class="btn btn-default" id="instructions">How to Play</button>
 	</div>

@@ -1,18 +1,56 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
-<head>	
+<head>
+<meta charset="UTF-8">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<script src="header.js"></script>
-	<title>Hanabi</title>
-	<h1>Hanabi</h1>
-	<hr>
-</head>
-<body>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		$(document).ready(function(){
+			var socket = io.connect();
 
-<center>
-	
-</center>
+			$("#sendButton").click(function(){
+				socket.emit('chatMessage', $('#sendBox').val());
+				$('#sendBox').val('');
+			});
+			socket.on('chatMessage', function(msg){
+      			$('#messages').append($('<li>').text(msg));
+			});
+
+
+			socket.on('metadata', function(msg){
+				console.log(msg);
+				var lobby = msg;
+				$("#sendButton2").click(function(){
+					socket.emit('chatMessage2', $('#sendBox2').val());
+					$('#sendBox2').val('');
+				});
+
+				socket.on('chatMessage2', function(msg){
+	      			$('#messages2').append($('<li>').text(msg));
+				});
+			});
+		});
+	</script>
+
+<title>Hanabi</title>
+<h1>Hanabi</h1>
+<hr>
+</head>
+
+<body>
+	<center>
+		<ul id='messages'></ul>
+		<input id="sendBox" type="" name="">
+		<button id="sendButton">send</button>
+		<br/>
+
+		<ul id='messages2'></ul>
+		<input id="sendBox2" type="" name="">
+		<button id="sendButton2">send</button>
+	</center>
 </body>
-</html>
+
+</html> 
