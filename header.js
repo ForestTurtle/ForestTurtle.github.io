@@ -405,11 +405,10 @@ function initializeHitAreas() {
 		hitAreas.push(new HitArea(380 + (50*i),450,40,60, function(){
 
 			showOptions(0,i);
-			alert("asdf");
 
 		}));
 	}
-
+	
 
 }
 
@@ -417,6 +416,7 @@ function showOptions(player,cardPos) {
 
 	var xPos = 0;
 	var yPos = 0;
+
 
 	switch(player){
 		case 0: //Center
@@ -445,7 +445,7 @@ function showOptions(player,cardPos) {
 			break;
 	}
 
-	xPos = xPos + (50* cardPos);
+	xPos = xPos + (50 * cardPos);
 
 	var radius = 8;
 
@@ -459,10 +459,10 @@ function showOptions(player,cardPos) {
 	ctx.fill();
 
 	
-	ctx.font = "16px Arial"
+	ctx.font = "16px Arial";
 	ctx.fillStyle = "black";	
-	ctx.fillText("X",xPos+5,yPos-14)
-	ctx.fillText("P",xPos+25,yPos-14)
+	ctx.fillText("X",xPos+5,yPos-14);
+	ctx.fillText("P",xPos+25,yPos-14);
 	
 
 }
