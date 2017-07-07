@@ -227,7 +227,7 @@ renders the entire board
 function render() {
 	//clear rect
 	ctx.clearRect(0,0,200,200);
-
+	numInfoTokens = 8;
 	drawUI();
 	//draw player hands
 	// for (var i = 0; i < numPlayers; i++) {
@@ -235,8 +235,8 @@ function render() {
 	// }
 	drawTable();
 	drawHand(1);
+	drawLives(livesLeft);
 	drawInfoCounter(numInfoTokens);
-	drawLives();
 	drawDiscarded();
 
 }
@@ -295,8 +295,6 @@ function drawHand(player) {
 
 
 
-
-
 }
 
 function drawCard(num, color, x, y, scale) {
@@ -320,6 +318,7 @@ function drawTable() {
 	ctx.arc(495,300,280,0,2*Math.PI);
 	ctx.fill();
 
+
 }
 
 /*
@@ -341,8 +340,10 @@ draw all the static images
 */
 function drawUI() {
 
+
+
 }
-numInfoTokens = 8;
+
 function drawInfoCounter(numInfoTokens) {
 	var centerx = 100;
 	var centery = 500;
@@ -367,7 +368,20 @@ function drawInfoCounter(numInfoTokens) {
 /*
 draws the bomb and string
 */
-function drawLives() {
+function drawLives(livesLeft) {
+
+	ctx.fillStyle = "#000000";
+	ctx.beginPath();
+	ctx.arc(900,500,40,0,2*Math.PI);
+	ctx.fill();
+
+	ctx.font = "30px Arial"
+	ctx.fillStyle = "red";	
+	ctx.fillText(livesLeft,890,510)
+
+	ctx.beginPath();
+	ctx.bezierCurveTo(900,480-(30*livesLeft),900,480-(30*livesLeft),900,500);
+	ctx.stroke();
 
 }
 
