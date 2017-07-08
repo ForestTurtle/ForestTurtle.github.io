@@ -186,11 +186,18 @@ io.on('connection', function (socket) {
 		var players = lobbies[gameLobby].players;
 		var currentPlayer = lobbies[gameLobby].currentPlayer;
 		io.to(gameLobby).emit('chatMessage', "Player "+lobbies[gameLobby].players[currentPlayer] + " has " + choiceText);
-		//let next player move and update current player
-		var nextPlayerIndex = (currentPlayer+1)%players.length;
-		io.to(gameLobby).emit('chatMessage', players[nextPlayerIndex].name + "'s turn!");
-		socket.to(players[nextPlayerIndex].socketid).emit('yourTurn', true);
-		lobbies[gameLobby].currentPlayer = nextPlayerIndex;
+		if(lobbies[gameLobby].isGameOver()){
+			//let the players know the score and game over
+			io.to(gameLobby).emit('chatMessage', "Game Over!");
+			io.to(gameLobby).emit('chatMessage', "The score was " + lobbies[gameLobby].getScore());
+			io.to(gameLobby).emit('gameOver', true);
+		} else {
+			//let next player move and update current player
+			var nextPlayerIndex = (currentPlayer+1)%players.length;
+			io.to(gameLobby).emit('chatMessage', players[nextPlayerIndex].name + "'s turn!");
+			socket.to(players[nextPlayerIndex].socketid).emit('yourTurn', true);
+			lobbies[gameLobby].currentPlayer = nextPlayerIndex;
+		}
 	}
 
 });
