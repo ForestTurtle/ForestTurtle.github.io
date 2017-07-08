@@ -312,11 +312,18 @@ draws the table in the middle
 */
 function drawTable() {
 
-	ctx.fillStyle = "#BFBFBF";
-	ctx.beginPath();
-	//x, y, r start angle, end angle
-	ctx.arc(495,300,280,0,2*Math.PI);
-	ctx.fill();
+	//table arrays go in the order: red | blue | green | yellow | purple
+
+	var colors = ['red','blue','green','yellow','purple']
+
+	for (i = 0; i < 5; i++)
+	{
+		ctx.strokeStyle=colors[i];
+		ctx.beginPath();
+		ctx.rect(375 + (50*i),200,40,60);
+		ctx.stroke(); 
+	}
+
 
 
 }
@@ -339,6 +346,12 @@ function drawDiscardedCards(ct) {
 draw all the static images
 */
 function drawUI() {
+
+	ctx.fillStyle = "#BFBFBF";
+	ctx.beginPath();
+	//x, y, r start angle, end angle
+	ctx.arc(495,300,280,0,2*Math.PI);
+	ctx.fill();
 
 
 
@@ -503,6 +516,7 @@ function showOptions(player,cardPos) {
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for play card
 
 		playCard(player,cardPos);
+		render();
 
 	}));
 
