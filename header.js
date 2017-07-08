@@ -36,7 +36,7 @@ function initialize(canvasContext) {
 	initializeDeck();
 	initializeHands();
 	livesLeft = 3;
-	numInfoTokens = 8;
+	numInfoTokens = 6;
 	initializeHitAreas();
 	ctx = canvasContext;
 }
@@ -399,14 +399,43 @@ function initializeHitAreas() {
 			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
 		}));
 	}));
+	
+	for(let i = 0; i < 5; i++){ //added let to pass iterator to function
+		for(let j = 0; j < 5; j++){
 
-	for(let i = 0; i < 5; i++){ //added let
+			switch(i){
+			case 0: //Center
+				xPos = 380;
+				yPos = 450;
+				break; 
+			
+			case 1: //Lower Left
+				xPos = 100;
+				yPos = 300;
+				break;
 
-		hitAreas.push(new HitArea(380 + (50*i),450,40,60, function(){
+			case 2: //Upper Left
+				xPos = 100;
+				yPos = 100;
+				break;
 
-			showOptions(0,i);
+			case 3: //Upper Right
+				xPos = 700;
+				yPos = 100;
+				break;
 
-		}));
+			case 4: //Lower Right
+				xPos = 700;
+				yPos = 300;
+				break;
+			}
+
+			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(){
+
+				showOptions(i,j);
+
+			}));
+		}
 	}
 	
 
@@ -463,6 +492,20 @@ function showOptions(player,cardPos) {
 	ctx.fillStyle = "black";	
 	ctx.fillText("X",xPos+5,yPos-14);
 	ctx.fillText("P",xPos+25,yPos-14);
+
+	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for discard card
+
+		discardCard(player,cardPos);
+		render();
+
+	}));
+
+	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for play card
+
+		playCard(player,cardPos);
+
+	}));
+
 	
 
 }
@@ -476,6 +519,10 @@ loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y) {
 	hitAreas.forEach(function(item, index) {
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.rect(item.x,item.y,item.w,item.h);
+		ctx.stroke(); 
 		if (collides(x, y, item)){
 			item.action();
 
