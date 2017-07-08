@@ -218,9 +218,37 @@ function evaluatePlayed(tableNumber, played, player, cardPos) {
 }
 
 /*the player to give info to*/
-function giveInfo(player, cardNo, color) {
+function giveInfoColor(color, player, cardPos) {
+		
+		var col = hands[player][cardPos].color;
+		var info = "";
+		for (i = 0 ; i < 5; i++) {
+			if(hands[player][i].color == col)
+			{
+				info = info + "card " + (i+1) + "  "; 
+			}
+		}
 
+		info = info + "is/are " + color;
+		alert(info);
+ 
 }
+
+function giveInfoNumber(number, player, cardPos) {
+		
+		var num = hands[player][cardPos].number;
+		var info = "";
+		for (i = 0 ; i < 5; i++) {
+			if(hands[player][i].number == number)
+			{
+				info = info + "card " + (i+1) + "  "; 
+			}
+		}
+
+		info = info + "is/are " + number;
+		alert(info);
+}
+
 
 //-----------------------------------------------
 
@@ -425,7 +453,7 @@ function initializeHitAreas() {
 		}));
 	}));
 	
-	for(let i = 0; i < 5; i++){ //added let to pass iterator to function
+	for(let i = 0; i < 5; i++){ //Change iterator to add players? 
 		for(let j = 0; j < 5; j++){
 
 			switch(i){
@@ -457,7 +485,7 @@ function initializeHitAreas() {
 
 			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(){
 
-				showOptions(i,j);
+				showOptionsOther(i,j);
 
 			}));
 		}
@@ -532,7 +560,74 @@ function showOptions(player,cardPos) {
 
 	}));
 
+}
+
+function showOptionsOther(player,cardPos) {
+
+	var xPos = 0;
+	var yPos = 0;
+
+
+	switch(player){
+		case 0: //Center
+			xPos = 380;
+			yPos = 450;
+			break; 
+		
+		case 1: //Lower Left
+			xPos = 100;
+			yPos = 300;
+			break;
+
+		case 2: //Upper Left
+			xPos = 100;
+			yPos = 100;
+			break;
+
+		case 3: //Upper Right
+			xPos = 700;
+			yPos = 100;
+			break;
+
+		case 4: //Lower Right
+			xPos = 700;
+			yPos = 300;
+			break;
+	}
+
+	xPos = xPos + (50 * cardPos);
+
+	var radius = 8;
+
+	ctx.fillStyle = "#FDFEFE";
+
+	ctx.beginPath();
+	ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
+
+	ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
+
 	
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";	
+	ctx.fillText("C",xPos+5,yPos-14);
+	ctx.fillText("#",xPos+25,yPos-14);
+
+	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for give info on color
+
+	
+		giveInfoColor(hands[player][cardPos].color, player, cardPos); 
+
+	}));
+
+	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for give info on number
+
+		giveInfoNumber(hands[player][cardPos].number, player, cardPos); 
+
+	}));
+
+
 
 }
 
