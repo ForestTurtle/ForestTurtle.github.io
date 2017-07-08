@@ -64,9 +64,10 @@ app.post('*', function (request, response) {
 });
 
 class User{
-	constructor(name, lobby){
+	constructor(name, lobby, socket){
 		this.name = name;
 		this.lobby = lobby;
+		this.socket = socket;
 	}
 }
 
@@ -74,7 +75,7 @@ io.on('connection', function (socket) {
 	var user = socket.handshake.username;
 	var lobby = socket.handshake.lobby;
 	//send info that this user has connected
-	connectedUsers.push(new User(user, lobby));
+	connectedUsers.push(new User(user, lobby, socket));
 	console.log(user + " has connected to server");
 	io.emit('chatMessage', user + ' has joined lobby: '+ lobby);
 
@@ -89,6 +90,7 @@ io.on('connection', function (socket) {
 	//tell client what lobby they're in
 	socket.emit('metadata', lobby);
 
+	//chat message functionality
 	socket.on('chatMessage', function(msg){
 		console.log('Message: '+msg);
 		io.emit('chatMessage', socket.handshake.username+": "+msg);
@@ -109,6 +111,15 @@ io.on('connection', function (socket) {
 		console.log(user + " has disconnected");
 		io.emit('chatMessage', user + ' has disconnected from lobby: '+ lobby);
 	});
+
+	//game functionality
+	socket.on('startGame', function(gameLobby){
+		//initialize game
+		io.to(gameLobby).emit('gameState', "");
+		//chose first player
+		io.to(gameLobby).emit('yourTurn', "");
+
+	});
 });
 
 function getUser(user){
@@ -119,19 +130,3 @@ function getUser(user){
 	}
 	return -1;
 }
-// var lobby1 = io.of('/lobby1').on('connection', function (socket) {
-// 	console.log("user has connected to lobby1");
-
-// 	socket.on('disconnect', function(){
-// 		console.log("user has disconnected from lobby1");
-// 	});
-
-// 	socket.on('chatMessage', function(msg){
-// 		console.log('Message: '+msg);
-// 		io.emit('chatMessage', msg);
-// 	})
-// });
-
-
-
-
