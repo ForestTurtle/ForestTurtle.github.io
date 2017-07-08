@@ -10,7 +10,21 @@
 	<script>
 		$(document).ready(function(){
 			var socket = io.connect();
+			//binding enter key to send
+			$("#sendBox").bind("keypress", function(e){
+				if(e.keyCode == 13){
+					socket.emit('chatMessage', $('#sendBox').val());
+					$('#sendBox').val('');
+				}
+			});
 
+			$("#sendBox2").bind("keypress", function(e){
+				if(e.keyCode == 13){
+					socket.emit('chatMessage2', $('#sendBox2').val());
+					$('#sendBox2').val('');
+				}
+			});
+			//binding click to send
 			$("#sendButton").click(function(){
 				socket.emit('chatMessage', $('#sendBox').val());
 				$('#sendBox').val('');
@@ -19,6 +33,7 @@
       			$('#messages').append($('<li>').text(msg));
 			});
 
+			//client server comms
 
 			socket.on('metadata', function(msg){
 				console.log(msg);
@@ -41,16 +56,29 @@
 </head>
 
 <body>
-	<center>
-		<ul id='messages'></ul>
-		<input id="sendBox" type="" name="">
-		<button id="sendButton">send</button>
-		<br/>
-
-		<ul id='messages2'></ul>
-		<input id="sendBox2" type="" name="">
-		<button id="sendButton2">send</button>
-	</center>
+		<div class="row"> 
+		<div class="col-md-3">
+		<center>
+			<span>Chat to All</span>
+			<ul id='messages' style="border-style: solid; border-width: 1px; overflow-y: scroll; height: 200px; margin-left: 10px;"></ul>
+			<input id="sendBox" type="" name="">
+			<button id="sendButton">send</button>
+			<br/>
+			<br/>
+			<br/>
+			<span>Chat to Lobby</span>
+			<ul id='messages2' style="border-style: solid; border-width: 1px; overflow-y: scroll; height: 200px; margin-left: 10px;"></ul>
+			<input id="sendBox2" type="" name="">
+			<button id="sendButton2">send</button>
+			<hr>
+			<button type="button" class="btn btn-default" onclick="window.location='index.html'">back</button>
+		</center>
+		</div>
+		<div class="col-md-8">
+			<canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+			<hr>
+		</div>
+		</div>
 </body>
 
 </html> 
