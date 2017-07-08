@@ -71,6 +71,17 @@ class User{
 	}
 }
 
+var lobbies = {}; //dicitonary from lobby name to game: lobbies[lobby] = game
+//all the information needed for a game
+class Game{
+	constructor(players, lobby, socketid){
+		this.players = players;
+		this.lobby = lobby;
+		this.socketid = socketid;
+	}
+}
+
+
 io.on('connection', function (socket) {
 	var user = socket.handshake.username;
 	var lobby = socket.handshake.lobby;
