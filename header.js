@@ -661,3 +661,13 @@ function collides(xp, yp, hitArea) {
 	}
 	return false;
 }
+
+//check to see if game ended
+function isGameOver() {
+	return false;
+}
+
+//calculates and returns the current score
+function getScore() {
+	return 0;
+}
