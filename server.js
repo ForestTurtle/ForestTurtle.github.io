@@ -72,13 +72,28 @@ class User{
 }
 
 var lobbies = {}; //dicitonary from lobby name to game: lobbies[lobby] = game
-//all the information needed for a game
+
+//all the information needed for a game, move do a different file soon
 class Game{
-	constructor(players, lobby, socketid){
-		this.players = players;
-		this.lobby = lobby;
-		this.socketid = socketid;
+
+	constructor(players){
+		this.players = players; //array of users
+
+		this.currentPlayer = 0;
+		this.numInfoTokens = 0;
+		this.livesLeft = 0;
+		this.deck = [];
+		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
+		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
+		this.discard = [];
+
+		var hitAreas = [];
 	}
+
+	initialize(){
+
+	}
+
 }
 
 
@@ -124,34 +139,59 @@ io.on('connection', function (socket) {
 	});
 
 	//game functionality
-	// socket.on('startGame', function(gameLobby){
-	// 	//initialize game
-	// 	var players = []; //players in the lobby
-	// 	for (var i = 0; i < connectedUsers.length; i++) {
-	// 		if (connectedUsers[i].lobby == gameLobby){
-	// 			players.push(connectedUsers[i]);
-	// 		}
-	// 	}
+	socket.on('startGame', function(gameLobby){
+		//initialize game
+		var players = []; //players in the lobby
+		for (var i = 0; i < connectedUsers.length; i++) {
+			if (connectedUsers[i].lobby == gameLobby){
+				players.push(connectedUsers[i]);
+			}
+		}
+		lobbies[gameLobby] = new Game(players);
+		lobbies[gameLobby].initialize();
 
-	// 	io.to(gameLobby).emit('gameState', "");
-	// 	//choose first player
-	// 	socket.to(players[i].socketid).emit('yourTurn', "");
-
-	// 	socket.on('moveChoice', function(choice)){
-	// 		//update game
-	// 		io.to(gameLobby).emit('gameState', "");
-	// 		socket.to(players[(i+1)%players.length].socketid).emit('yourTurn', "");
-
-	// 	}
-	// });
-
-	// socket.on('test', function(msg){
-
-	// 	socket.on('test2', function(msg){
-
-	// 	});
+		//send initial game state for rendering
+		io.to(gameLobby).emit('gameState', lobbies[gameLobby]);
 		
-	// });
+		//let first player move
+		var randomPlayer = Math.floor((Math.random() * players.length));
+		lobbies[gameLobby].currentPlayer = randomPlayer;
+		io.to(gameLobby).emit('chatMessage', "Game has begun. " + players[randomPlayer].name + "goes first!");
+		socket.to(players[randomPlayer].socketid).emit('yourTurn', true);
+	});
+
+	socket.on('moveChoice', function(data)){
+		var gameLobby = data[0];
+		var choice = data[1]; //1 for discard, 2 for play, 3 for info
+		var targetPlayer = data[2];
+		var card = data[3];
+
+		var choiceText = "";
+		//update game
+		if (choice == 1){
+			lobbies[gameLobby].discard(targetPlayer, card);
+			choiceText = "discarded a card!";
+		} else if (choice == 2) {
+			lobbies[gameLobby].playCard(targetPlayer, card);
+			choiceText = "played a card!";
+		} else if (choice == 3) {
+			lobbies[gameLobby].giveInfo(targetPlayer, card);
+			choiceText = "given information!";
+		}
+
+		//send initial game state for rendering
+		io.to(gameLobby).emit('gameState', lobbies[gameLobby]);
+		//let the players know what just happened
+		var players = lobbies[gameLobby].players;
+		var currentPlayer = lobbies[gameLobby].currentPlayer;
+		io.to(gameLobby).emit('chatMessage', "Player "+lobbies[gameLobby].players[currentPlayer] + " has " + choiceText);
+		//let next player move and update current player
+		var nextPlayerIndex = (currentPlayer+1)%players.length;
+		io.to(gameLobby).emit('chatMessage', players[nextPlayerIndex].name + "'s turn!");
+		socket.to(players[nextPlayerIndex].socketid).emit('yourTurn', true);
+		lobbies[gameLobby].currentPlayer = nextPlayerIndex;
+	}
+
 });
 
 function getUser(user){
