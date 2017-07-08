@@ -153,11 +153,12 @@ io.on('connection', function (socket) {
 		//send initial game state for rendering
 		io.to(gameLobby).emit('gameState', lobbies[gameLobby]);
 		
-		//let first player move
-		var randomPlayer = Math.floor((Math.random() * players.length));
-		lobbies[gameLobby].currentPlayer = randomPlayer;
-		io.to(gameLobby).emit('chatMessage', "Game has begun. " + players[randomPlayer].name + "goes first!");
-		socket.to(players[randomPlayer].socketid).emit('yourTurn', true);
+		//let first player move, should do in game class's initialize
+		// var randomPlayer = Math.floor((Math.random() * players.length));
+		// lobbies[gameLobby].currentPlayer = randomPlayer;
+		var startingPlayer = lobbies[gameLobby].currentPlayer;
+		io.to(gameLobby).emit('chatMessage', "Game has begun. " + players[startingPlayer].name + "goes first!");
+		socket.to(players[startingPlayer].socketid).emit('yourTurn', true);
 	});
 
 	socket.on('moveChoice', function(data)){

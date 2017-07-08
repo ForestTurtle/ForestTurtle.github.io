@@ -1,4 +1,5 @@
-var numPlayers = 0;
+var players = [];
+var currentPlayer = 0;
 var numInfoTokens = 0;
 var livesLeft = 0;
 var ctx;
