@@ -1,4 +1,4 @@
-var numPlayers = 0;
+
 var numInfoTokens = 0;
 var livesLeft = 0;
 var ctx;
@@ -36,7 +36,7 @@ function initialize(canvasContext) {
 	initializeDeck();
 	initializeHands();
 	livesLeft = 3;
-	numInfoTokens = 0;
+	numInfoTokens = 8;
 	initializeHitAreas();
 	ctx = canvasContext;
 }
