@@ -36,7 +36,7 @@ function initialize(canvasContext) {
 	initializeDeck();
 	initializeHands();
 	livesLeft = 3;
-	numInfoTokens = 6;
+	numInfoTokens = 0;
 	initializeHitAreas();
 	ctx = canvasContext;
 }
@@ -162,23 +162,23 @@ function playCard(player,cardPos) {
 	switch(played.color) {
 	
 	case 'red':
-		evaluatePlayed(0,played);
+		evaluatePlayed(0,played,player,cardPos);
 	    break;
 
 	case 'blue':
-		evaluatePlayed(1,played);
+		evaluatePlayed(1,played,player,cardPos);
 		break;
 
 	case 'green':
-	  	evaluatePlayed(2,played);
+	  	evaluatePlayed(2,played,player,cardPos);
 	   	break;
 
 	case 'yellow':
-	  	evaluatePlayed(3,played);
+	  	evaluatePlayed(3,played,player,cardPos);
 	    break;
 
 	case 'purple':
-	  	evaluatePlayed(4,played)
+	  	evaluatePlayed(4,played,player,cardPos);
 	    break;
 	}
   
@@ -188,13 +188,14 @@ function playCard(player,cardPos) {
 Helper function for playCard which determines whether the move is valid or not
 */
 
-function evaluatePlayed(tableNumber, played) {
+function evaluatePlayed(tableNumber, played, player, cardPos) {
 
 	if(typeof table[tableNumber][0] == 'undefined')
 	{
   		if(played.number == 1)
     	{
 			table[tableNumber][0] = played;
+			draw(player,cardPos);
     	}	
     
     	else
@@ -207,6 +208,7 @@ function evaluatePlayed(tableNumber, played) {
   		if(typeof table[tableNumber][played.number - 2] != 'undefined')
     	{
     		table[tableNumber][played.number-1] = played;
+    		draw(player,cardPos);
     	}
     	else
     	{
@@ -316,12 +318,22 @@ function drawTable() {
 
 	var colors = ['red','blue','green','yellow','purple']
 
-	for (i = 0; i < 5; i++)
-	{
+	for (i = 0; i < 5; i++) {
 		ctx.strokeStyle=colors[i];
 		ctx.beginPath();
 		ctx.rect(375 + (50*i),200,40,60);
 		ctx.stroke(); 
+	}
+
+	for(i = 0; i < 5; i++){
+		for(j = 0; j < 5; j++){
+			if(typeof table[i][j] != 'undefined')
+			{
+				drawCard(table[i][j].number,table[i][j].color,375 + (50*i),200,0.4)
+
+			}
+		}
+
 	}
 
 
