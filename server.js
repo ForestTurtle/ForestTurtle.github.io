@@ -64,10 +64,10 @@ app.post('*', function (request, response) {
 });
 
 class User{
-	constructor(name, lobby, socket){
+	constructor(name, lobby, socketid){
 		this.name = name;
 		this.lobby = lobby;
-		this.socket = socket;
+		this.socketid = socketid;
 	}
 }
 
@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
 	var user = socket.handshake.username;
 	var lobby = socket.handshake.lobby;
 	//send info that this user has connected
-	connectedUsers.push(new User(user, lobby, socket));
+	connectedUsers.push(new User(user, lobby, socket.id));
 	console.log(user + " has connected to server");
 	io.emit('chatMessage', user + ' has joined lobby: '+ lobby);
 
@@ -113,13 +113,34 @@ io.on('connection', function (socket) {
 	});
 
 	//game functionality
-	socket.on('startGame', function(gameLobby){
-		//initialize game
-		io.to(gameLobby).emit('gameState', "");
-		//chose first player
-		io.to(gameLobby).emit('yourTurn', "");
+	// socket.on('startGame', function(gameLobby){
+	// 	//initialize game
+	// 	var players = []; //players in the lobby
+	// 	for (var i = 0; i < connectedUsers.length; i++) {
+	// 		if (connectedUsers[i].lobby == gameLobby){
+	// 			players.push(connectedUsers[i]);
+	// 		}
+	// 	}
 
-	});
+	// 	io.to(gameLobby).emit('gameState', "");
+	// 	//choose first player
+	// 	socket.to(players[i].socketid).emit('yourTurn', "");
+
+	// 	socket.on('moveChoice', function(choice)){
+	// 		//update game
+	// 		io.to(gameLobby).emit('gameState', "");
+	// 		socket.to(players[(i+1)%players.length].socketid).emit('yourTurn', "");
+
+	// 	}
+	// });
+
+	// socket.on('test', function(msg){
+
+	// 	socket.on('test2', function(msg){
+
+	// 	});
+		
+	// });
 });
 
 function getUser(user){
