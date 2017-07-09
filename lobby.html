@@ -10,43 +10,88 @@
 	<script>
 		$(document).ready(function(){
 			var socket = io.connect();
+			//html stuff
+			$('#back').click(function(){
+				window.location='index.html';
+			});
+			//chat logic
 			//binding enter key to send
 			$("#sendBox").bind("keypress", function(e){
 				if(e.keyCode == 13){
-					socket.emit('chatMessage', $('#sendBox').val());
+					socket.emit('serverMessage', $('#sendBox').val());
 					$('#sendBox').val('');
 				}
 			});
 
 			$("#sendBox2").bind("keypress", function(e){
 				if(e.keyCode == 13){
-					socket.emit('chatMessage2', $('#sendBox2').val());
+					socket.emit('lobbyMessage', $('#sendBox2').val());
 					$('#sendBox2').val('');
 				}
 			});
 			//binding click to send
 			$("#sendButton").click(function(){
-				socket.emit('chatMessage', $('#sendBox').val());
+				socket.emit('serverMessage', $('#sendBox').val());
 				$('#sendBox').val('');
 			});
-			socket.on('chatMessage', function(msg){
+			socket.on('serverMessage', function(msg){
       			$('#messages').append($('<li>').text(msg));
 			});
 
 			//client server comms
-
+			var lobby = "";
 			socket.on('metadata', function(msg){
-				console.log(msg);
-				var lobby = msg;
+				lobby = msg;
 				$("#sendButton2").click(function(){
-					socket.emit('chatMessage2', $('#sendBox2').val());
+					socket.emit('lobbyMessage', $('#sendBox2').val());
 					$('#sendBox2').val('');
 				});
 
-				socket.on('chatMessage2', function(msg){
+				socket.on('lobbyMessage', function(msg){
 	      			$('#messages2').append($('<li>').text(msg));
 				});
 			});
+
+			//game logic
+			$('#startGame').click(function(){
+				if(lobby != "") {
+					$('#gameState').val("game starting");
+					socket.emit('startGame', lobby);
+				}
+			});
+			socket.on('gameState', function(gameState){
+				//draw game state
+				$('#startGame').text("Restart Game");
+				$('#gameState').val(gameState.testState);
+
+			});
+			var moveData = ["", 0, 1, 1];
+			$('#playCard').click(function(){
+				if(lobby != "") {
+					moveData[0] = lobby;
+					moveData[1] = 1;
+					socket.emit('moveChoice', moveData);
+				}
+			});
+			$('#discard').click(function(){
+				if(lobby != "") {
+					moveData[0] = lobby;
+					moveData[1] = 2;
+					socket.emit('moveChoice', moveData);
+				}
+			});
+			$('#giveInfo').click(function(){
+				if(lobby != "") {
+					moveData[0] = lobby;
+					moveData[1] = 3;
+					socket.emit('moveChoice', moveData);
+				}
+			});
+			socket.on('error', function(msg){
+				alert(msg);
+			});
+
+
 		});
 	</script>
 
@@ -71,12 +116,18 @@
 			<input id="sendBox2" type="" name="">
 			<button id="sendButton2">send</button>
 			<hr>
-			<button type="button" class="btn btn-default" onclick="window.location='index.html'">back</button>
+			<button type="button" class="btn btn-default" id="back">back</button>
+			<button type="button" class="btn btn-default" id="startGame">Start Game</button>
 		</center>
 		</div>
 		<div class="col-md-8">
-			<canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+			<!-- <canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+			<hr> -->
+			<textarea id='gameState' style="border-style: solid; border-width: 1px; overflow-y: scroll; height: 200px; margin-left: 10px;" cols="100">default text area</textarea>
 			<hr>
+			<button type="button" class="btn btn-default" id="playCard">playCard</button>
+			<button type="button" class="btn btn-default" id="discard">discard</button>
+			<button type="button" class="btn btn-default" id="giveInfo">giveInfo</button>
 		</div>
 		</div>
 </body>
