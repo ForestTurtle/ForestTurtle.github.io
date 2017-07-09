@@ -37,9 +37,11 @@ function initialize(canvasContext) {
 	initializeDeck();
 	initializeHands();
 	livesLeft = 3;
-	numInfoTokens = 0;
+	numInfoTokens = 8;
 	initializeHitAreas();
 	ctx = canvasContext;
+	clearOptions();
+
 }
 
 /*
@@ -231,6 +233,7 @@ function giveInfoColor(color, player, cardPos) {
 		}
 
 		info = info + "is/are " + color;
+		numInfoTokens--;
 		alert(info);
  
 }
@@ -246,6 +249,7 @@ function giveInfoNumber(number, player, cardPos) {
 			}
 		}
 
+		numInfoTokens--;
 		info = info + "is/are " + number;
 		alert(info);
 }
@@ -487,13 +491,16 @@ function initializeHitAreas() {
 			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(){
 
 				showOptionsOther(i,j);
-
 			}));
 		}
 	}
 	
 
 }
+
+/*
+Gives options for the player to give either discard or play their own cards.
+*/
 
 function showOptions(player,cardPos) {
 
@@ -551,6 +558,9 @@ function showOptions(player,cardPos) {
 
 		discardCard(player,cardPos);
 		render();
+		hitAreas.pop();
+		hitAreas.pop();
+
 
 	}));
 
@@ -558,10 +568,16 @@ function showOptions(player,cardPos) {
 
 		playCard(player,cardPos);
 		render();
+		hitAreas.pop();
+		hitAreas.pop();
 
 	}));
 
 }
+
+/*
+Gives options for the player to give information on another player's card.
+*/
 
 function showOptionsOther(player,cardPos) {
 
@@ -617,22 +633,25 @@ function showOptionsOther(player,cardPos) {
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for give info on color
 
-	
 		giveInfoColor(hands[player][cardPos].color, player, cardPos); 
+		render();
+		//testingHit();
+		hitAreas.pop();
+		hitAreas.pop();
 
 	}));
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for give info on number
 
 		giveInfoNumber(hands[player][cardPos].number, player, cardPos); 
+		render();
+		//testingHit();
+		hitAreas.pop();
+		hitAreas.pop();
 
 	}));
 
 
-
-}
-
-function clearOptions() {
 
 }
 
@@ -645,6 +664,7 @@ function checkForHit(x, y) {
 		ctx.beginPath();
 		ctx.rect(item.x,item.y,item.w,item.h);
 		ctx.stroke(); 
+
 		if (collides(x, y, item)){
 			item.action();
 
@@ -671,3 +691,12 @@ function isGameOver() {
 function getScore() {
 	return 0;
 }
+
+function testingHit()
+{
+	for(i = hitAreas.length-1; i < hitAreas.length;i++)
+	{
+		console.log(hitAreas[i]);
+	}
+}
+
