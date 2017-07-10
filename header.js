@@ -725,15 +725,15 @@ loop through the hit areas are does the apprpriate action. The control
 loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y) {
-	if(menuHitFlag == true)
+	if(menuHitFlag == true) //card menus are open
 	{
 		menuHitFlag = false;
 		normalCollision(x,y);
 		console.log(menuHitFlag);
-		if(menuHitFlag == true){
-			//remote index 2 and 3
+		if(menuHitFlag == true){ //clicked card
+			//remove 3rd and 3th last added things
 			hitAreas.splice(-3, 2);
-		} else {
+		} else { //clicked elsewhere
 	 		hitAreas.pop();
 			hitAreas.pop();
 		}
