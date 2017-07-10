@@ -36,6 +36,7 @@
 			});
 			socket.on('serverMessage', function(msg){
       			$('#messages').append($('<li>').text(msg));
+      			$('#messages').scrollTop($('#messages')[0].scrollHeight);
 			});
 
 			//client server comms
@@ -49,6 +50,7 @@
 
 				socket.on('lobbyMessage', function(msg){
 	      			$('#messages2').append($('<li>').text(msg));
+      				$('#messages2').scrollTop($('#messages2')[0].scrollHeight);
 				});
 			});
 
