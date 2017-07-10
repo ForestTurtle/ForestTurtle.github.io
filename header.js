@@ -462,30 +462,30 @@ function initializeHitAreas() {
 		for(let j = 0; j < 5; j++){
 
 			switch(i){
-			case 0: //Center
-				xPos = 380;
-				yPos = 450;
-				break; 
-			
-			case 1: //Lower Left
-				xPos = 100;
-				yPos = 300;
-				break;
+				case 0: //Center
+					xPos = 380;
+					yPos = 450;
+					break; 
+				
+				case 1: //Lower Left
+					xPos = 100;
+					yPos = 300;
+					break;
 
-			case 2: //Upper Left
-				xPos = 100;
-				yPos = 100;
-				break;
+				case 2: //Upper Left
+					xPos = 100;
+					yPos = 100;
+					break;
 
-			case 3: //Upper Right
-				xPos = 700;
-				yPos = 100;
-				break;
+				case 3: //Upper Right
+					xPos = 700;
+					yPos = 100;
+					break;
 
-			case 4: //Lower Right
-				xPos = 700;
-				yPos = 300;
-				break;
+				case 4: //Lower Right
+					xPos = 700;
+					yPos = 300;
+					break;
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(){
@@ -560,8 +560,8 @@ function showOptions(player,cardPos) {
 
 		discardCard(player,cardPos);
 		render();
-		hitAreas.pop();
-		hitAreas.pop();
+		// hitAreas.pop();
+		// hitAreas.pop();
 
 
 	}));
@@ -570,8 +570,8 @@ function showOptions(player,cardPos) {
 
 		playCard(player,cardPos);
 		render();
-		hitAreas.pop();
-		hitAreas.pop();
+		// hitAreas.pop();
+		// hitAreas.pop();
 
 	}));
 
@@ -663,63 +663,84 @@ function normalCollision(x,y) {
 
 }
 
-function menuCollision(x,y){
+// function menuCollision(x,y){
 
-	var notInHitbox = false;
-	hitAreas.forEach(function(item, index) {
+// 	var notInHitbox = false;
+// 	hitAreas.forEach(function(item, index) {
 
-		ctx.strokeStyle="red";
-		ctx.beginPath();
-		ctx.rect(item.x,item.y,item.w,item.h);
-		ctx.stroke(); 
+// 		ctx.strokeStyle="red";
+// 		ctx.beginPath();
+// 		ctx.rect(item.x,item.y,item.w,item.h);
+// 		ctx.stroke(); 
 
 
-		if (collides(x, y, item)){
+// 		if (collides(x, y, item)){
 
-				if((item == hitAreas[hitAreas.length-2] || item == hitAreas[hitAreas.length-1]))
-				{ 
-					//alert("menu collision : collided with hitbox: hit option");
-					item.action();
-					hitAreas.pop();
-					hitAreas.pop();
-					render();
-				}
-				else
-				{
-					hitAreas.pop();
-					hitAreas.pop();
-					render();
-				}
+// 				if((item == hitAreas[hitAreas.length-2] || item == hitAreas[hitAreas.length-1]))
+// 				{ 
+// 					//alert("menu collision : collided with hitbox: hit option");
+// 					item.action();
+// 					hitAreas.pop();
+// 					hitAreas.pop();
+// 					render();
+// 				}
+// 				else
+// 				{
+// 					hitAreas.pop();
+// 					hitAreas.pop();
+// 					render();
+// 				}
 
-		}
-		else
-		{
-			notInHitbox = true;
-		}
-	});
+// 		}
+// 		else
+// 		{
+// 			notInHitbox = true;
+// 		}
+// 	});
 
-	if(notInHitbox == true)
-	{
-		hitAreas.pop();
-		hitAreas.pop();
-		render();
-	}
+// 	if(notInHitbox == true)
+// 	{
+// 		hitAreas.pop();
+// 		hitAreas.pop();
+// 		render();
+// 	}
 
-}
+// }
 
+/*
+loop through the hit areas are does the apprpriate action. The control
+*/
+// function checkForHit(x, y) {
+// 	if(menuHitFlag == true)
+// 	{
+// 		menuCollision(x,y);
+// 		menuHitFlag = false;
+// 	}
+// 	else
+// 	{
+// 		normalCollision(x,y);
+// 	}
+// }
 /*
 loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y) {
 	if(menuHitFlag == true)
 	{
-		menuCollision(x,y);
 		menuHitFlag = false;
-	}
-	else
-	{
+		normalCollision(x,y);
+		console.log(menuHitFlag);
+		if(menuHitFlag == true){
+			//remote index 2 and 3
+			hitAreas.splice(-3, 2);
+		} else {
+	 		hitAreas.pop();
+			hitAreas.pop();
+		}
+	} else {
 		normalCollision(x,y);
 	}
+	// render();
 }
 
 

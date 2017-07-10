@@ -114,7 +114,7 @@ class Game{
 	}
 }
 
-
+//todo: fix race conition of multiple same user (line 50)
 io.on('connection', function (socket) {
 	var user = socket.handshake.username;
 	var lobby = socket.handshake.lobby;
