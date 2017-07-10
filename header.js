@@ -629,7 +629,6 @@ function showOptionsOther(player,cardPos) {
 
 	var radius = 8;
 
-	ctx.fillStyle = "#FDFEFE";
 
 	// ctx.beginPath();
 	// ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
@@ -645,19 +644,21 @@ function showOptionsOther(player,cardPos) {
 	// ctx.fillText("#",xPos+25,yPos-14);
 
 	dynamicDrawables.push(new DynamicDrawable(function (){
+		ctx.fillStyle = "black";
 		ctx.beginPath();
 		ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
 		ctx.fill();
-		ctx.fillStyle = "black";
+		ctx.fillStyle = "#FDFEFE";
 		ctx.font = "16px Arial";
 		ctx.fillText("C",xPos+5,yPos-14);
 	}));
 
 	dynamicDrawables.push(new DynamicDrawable(function (){
+		ctx.fillStyle = "black";	
 		ctx.beginPath();
 		ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
 		ctx.fill();
-		ctx.fillStyle = "black";	
+		ctx.fillStyle = "#FDFEFE";
 		ctx.font = "16px Arial";
 		ctx.fillText("#",xPos+25,yPos-14);
 	}));
