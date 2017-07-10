@@ -30,13 +30,6 @@ class HitArea {
 	}
 }
 
-var dynamicDrawables = [];
-class DynamicDrawable {
-	constructor(draw){
-		this.draw = draw;
-	}
-}
-
 //-----------------------------------------------
 
 /*
@@ -269,7 +262,7 @@ renders the entire board
 */
 function render() {
 	//clear rect
-	ctx.clearRect(0,0,1000,600);
+	ctx.clearRect(0,0,200,200);
 	drawUI();
 	//draw player hands
 	// for (var i = 0; i < numPlayers; i++) {
@@ -285,11 +278,7 @@ function render() {
 
 	drawLives(livesLeft);
 	drawInfoCounter(numInfoTokens);
-	// drawDiscarded();
-
-	dynamicDrawables.forEach(function(item) {
-		item.draw();
-	});
+	drawDiscarded();
 
 }
 
@@ -461,13 +450,13 @@ function drawLives(livesLeft) {
 */
 function initializeHitAreas() {
 	//the discard pile
-	// hitAreas.push(new HitArea(10, 10, 80, 80, function(){
-	// 	drawDiscardedCards();
-	// 	hitAreas.push(new HitArea(100, 10, 80, 80, function(){
-	// 		render();
-	// 		hitAreas.pop(); //assumes that this is the newest hit area and removes itself
-	// 	}));
-	// }));
+	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
+		drawDiscardedCards();
+		hitAreas.push(new HitArea(100, 10, 80, 80, function(){
+			render();
+			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
+		}));
+	}));
 	
 	for(let i = 0; i < 5; i++){ //Change iterator to add players? 
 		for(let j = 0; j < 5; j++){
@@ -570,7 +559,7 @@ function showOptions(player,cardPos) {
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for discard card
 
 		discardCard(player,cardPos);
-		// render();
+		render();
 		// hitAreas.pop();
 		// hitAreas.pop();
 
@@ -580,7 +569,7 @@ function showOptions(player,cardPos) {
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for play card
 
 		playCard(player,cardPos);
-		// render();
+		render();
 		// hitAreas.pop();
 		// hitAreas.pop();
 
@@ -631,38 +620,18 @@ function showOptionsOther(player,cardPos) {
 
 	ctx.fillStyle = "#FDFEFE";
 
-	// ctx.beginPath();
-	// ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
-	// ctx.fill();
+	ctx.beginPath();
+	ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
 
-	// ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
-	// ctx.fill();
+	ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
+	ctx.fill();
 
 	
-	// ctx.font = "16px Arial";
-	// ctx.fillStyle = "black";	
-	// ctx.fillText("C",xPos+5,yPos-14);
-	// ctx.fillText("#",xPos+25,yPos-14);
-
-	dynamicDrawables.push(new DynamicDrawable(function (){
-		ctx.beginPath();
-		ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
-		ctx.fill();
-		ctx.fillStyle = "black";
-		ctx.font = "16px Arial";
-		ctx.fillText("C",xPos+5,yPos-14);
-	}));
-
-	dynamicDrawables.push(new DynamicDrawable(function (){
-		ctx.beginPath();
-		ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
-		ctx.fill();
-		ctx.fillStyle = "black";	
-		ctx.font = "16px Arial";
-		ctx.fillText("#",xPos+25,yPos-14);
-	}));
-
-	// render();
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "black";	
+	ctx.fillText("C",xPos+5,yPos-14);
+	ctx.fillText("#",xPos+25,yPos-14);
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for give info on color
 
@@ -680,10 +649,10 @@ function showOptionsOther(player,cardPos) {
 function normalCollision(x,y) {
 
 	hitAreas.forEach(function(item, index) {
-		// ctx.strokeStyle="red";
-		// ctx.beginPath();
-		// ctx.rect(item.x,item.y,item.w,item.h);
-		// ctx.stroke(); 
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.rect(item.x,item.y,item.w,item.h);
+		ctx.stroke(); 
 		
 		if (collides(x, y, item)){
 			//alert("normal collision : collided with hitbox");
@@ -760,22 +729,20 @@ function checkForHit(x, y) {
 	{
 		menuHitFlag = false;
 		normalCollision(x,y);
-		//console.log(menuHitFlag);
+		console.log(menuHitFlag);
 		if(menuHitFlag == true){ //clicked card
 			//remove 3rd and 3th last added things
-			hitAreas.splice(-4, 2);
-			dynamicDrawables.splice(-4,2);
+			hitAreas.splice(-3, 2);
 		} else { //clicked elsewhere
 	 		hitAreas.pop();
 			hitAreas.pop();
-			dynamicDrawables.pop();
-			dynamicDrawables.pop();
 		}
 	} else {
 		normalCollision(x,y);
 	}
-	render();
+	// render();
 }
+
 
 //is a point in a rect?
 function collides(xp, yp, hitArea) {
