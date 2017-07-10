@@ -637,19 +637,11 @@ function showOptionsOther(player,cardPos) {
 
 		giveInfoColor(hands[player][cardPos].color, player, cardPos); 
 
-			hitAreas.pop();
-		hitAreas.pop();
-		render();
-
 	}));
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for give info on number
 
 		giveInfoNumber(hands[player][cardPos].number, player, cardPos); 
-
-		hitAreas.pop();
-		hitAreas.pop();
-		render();
 	}));
 
 }
@@ -663,7 +655,7 @@ function normalCollision(x,y) {
 		ctx.stroke(); 
 		
 		if (collides(x, y, item)){
-			alert("normal collision : collided with hitbox");
+			//alert("normal collision : collided with hitbox");
 			item.action();
 		}
 
@@ -673,6 +665,7 @@ function normalCollision(x,y) {
 
 function menuCollision(x,y){
 
+	var notInHitbox = false;
 	hitAreas.forEach(function(item, index) {
 
 		ctx.strokeStyle="red";
@@ -685,20 +678,32 @@ function menuCollision(x,y){
 
 				if((item == hitAreas[hitAreas.length-2] || item == hitAreas[hitAreas.length-1]))
 				{ 
-					alert("menu collision : collided with hitbox: hit option");
+					//alert("menu collision : collided with hitbox: hit option");
 					item.action();
+					hitAreas.pop();
+					hitAreas.pop();
+					render();
 				}
 				else
 				{
-					alert("menu collision : collided with hitbox : did not hit option");
+					hitAreas.pop();
+					hitAreas.pop();
+					render();
 				}
 
 		}
 		else
 		{
-			//alert("menu collision : did not collide with hitbox");
+			notInHitbox = true;
 		}
 	});
+
+	if(notInHitbox == true)
+	{
+		hitAreas.pop();
+		hitAreas.pop();
+		render();
+	}
 
 }
 
