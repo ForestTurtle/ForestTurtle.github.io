@@ -11,6 +11,8 @@ var discard = [];
 
 var hitAreas = [];
 
+var menuHitFlag = false;
+
 class Card {
 	constructor(color, number){
 		this.color = color;
@@ -40,8 +42,6 @@ function initialize(canvasContext) {
 	numInfoTokens = 8;
 	initializeHitAreas();
 	ctx = canvasContext;
-	clearOptions();
-
 }
 
 /*
@@ -489,11 +489,13 @@ function initializeHitAreas() {
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(){
-
+				menuHitFlag = true;
 				showOptionsOther(i,j);
 			}));
 		}
 	}
+
+//testingHit();
 	
 
 }
@@ -634,24 +636,69 @@ function showOptionsOther(player,cardPos) {
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for give info on color
 
 		giveInfoColor(hands[player][cardPos].color, player, cardPos); 
+
+			hitAreas.pop();
+		hitAreas.pop();
 		render();
-		//testingHit();
-		hitAreas.pop();
-		hitAreas.pop();
 
 	}));
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for give info on number
 
 		giveInfoNumber(hands[player][cardPos].number, player, cardPos); 
-		render();
-		//testingHit();
-		hitAreas.pop();
-		hitAreas.pop();
 
+		hitAreas.pop();
+		hitAreas.pop();
+		render();
 	}));
 
+}
 
+function normalCollision(x,y) {
+
+	hitAreas.forEach(function(item, index) {
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.rect(item.x,item.y,item.w,item.h);
+		ctx.stroke(); 
+		
+		if (collides(x, y, item)){
+			alert("normal collision : collided with hitbox");
+			item.action();
+		}
+
+	});
+
+}
+
+function menuCollision(x,y){
+
+	hitAreas.forEach(function(item, index) {
+
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.rect(item.x,item.y,item.w,item.h);
+		ctx.stroke(); 
+
+
+		if (collides(x, y, item)){
+
+				if((item == hitAreas[hitAreas.length-2] || item == hitAreas[hitAreas.length-1]))
+				{ 
+					alert("menu collision : collided with hitbox: hit option");
+					item.action();
+				}
+				else
+				{
+					alert("menu collision : collided with hitbox : did not hit option");
+				}
+
+		}
+		else
+		{
+			//alert("menu collision : did not collide with hitbox");
+		}
+	});
 
 }
 
@@ -659,18 +706,17 @@ function showOptionsOther(player,cardPos) {
 loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y) {
-	hitAreas.forEach(function(item, index) {
-		ctx.strokeStyle="red";
-		ctx.beginPath();
-		ctx.rect(item.x,item.y,item.w,item.h);
-		ctx.stroke(); 
-
-		if (collides(x, y, item)){
-			item.action();
-
-		}
-	});
+	if(menuHitFlag == true)
+	{
+		menuCollision(x,y);
+		menuHitFlag = false;
+	}
+	else
+	{
+		normalCollision(x,y);
+	}
 }
+
 
 //is a point in a rect?
 function collides(xp, yp, hitArea) {
@@ -694,7 +740,7 @@ function getScore() {
 
 function testingHit()
 {
-	for(i = hitAreas.length-1; i < hitAreas.length;i++)
+	for(i = 0; i < hitAreas.length;i++)
 	{
 		console.log(hitAreas[i]);
 	}
