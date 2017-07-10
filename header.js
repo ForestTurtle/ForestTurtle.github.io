@@ -263,7 +263,7 @@ renders the entire board
 function render() {
 	//clear rect
 	ctx.clearRect(0,0,200,200);
-	drawUI();
+	//drawUI();
 	//draw player hands
 	// for (var i = 0; i < numPlayers; i++) {
 	// 	drawHand(i);
@@ -657,6 +657,7 @@ function normalCollision(x,y) {
 		if (collides(x, y, item)){
 			//alert("normal collision : collided with hitbox");
 			item.action();
+
 		}
 
 	});
