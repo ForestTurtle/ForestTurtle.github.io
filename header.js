@@ -263,7 +263,7 @@ renders the entire board
 function render() {
 	//clear rect
 	ctx.clearRect(0,0,200,200);
-	//drawUI();
+	drawUI();
 	//draw player hands
 	// for (var i = 0; i < numPlayers; i++) {
 	// 	drawHand(i);
@@ -732,7 +732,7 @@ function checkForHit(x, y) {
 		normalCollision(x,y);
 		console.log(menuHitFlag);
 		if(menuHitFlag == true){ //clicked card
-			//remove 3rd and 3th last added things
+			//remove 3rd and 4th last added things
 			hitAreas.splice(-3, 2);
 		} else { //clicked elsewhere
 	 		hitAreas.pop();
@@ -741,7 +741,7 @@ function checkForHit(x, y) {
 	} else {
 		normalCollision(x,y);
 	}
-	// render();
+	//render();
 }
 
 
