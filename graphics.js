@@ -73,6 +73,8 @@ function drawCard(num, color, x, y, scale, ctx) {
 	}
 }
 
+
+
 /*
 draws the table in the middle
 */
@@ -117,9 +119,9 @@ function drawDiscarded(ctx) {
 Draws all the cards in the discared pile
 */
 
+
 function drawDiscardedCards(ctx) {
 	
-	dynamicDrawables.push(new DynamicDrawable(function (ctx){
 		ctx.fillStyle = "#e9e2e2";	
 		ctx.beginPath();
 		ctx.rect(100,50,800,480);
@@ -128,7 +130,6 @@ function drawDiscardedCards(ctx) {
 		for(let cards = 0 ; cards < discard.length; cards++) {
 			drawCard(discard[cards].number,discard[cards].player,150,60,0.4,ctx);
 		}
-	}));
 
 }
 
