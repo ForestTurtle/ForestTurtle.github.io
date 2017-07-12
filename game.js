@@ -465,14 +465,34 @@ class Game {
 	Draws the discarded pile to to screen (not all the cards, just the pile)
 	*/
 	drawDiscarded(ctx) {
-		ctx.fillRect(10,10,80,80);
+		ctx.fillStyle = "black";
+		ctx.beginPath();
+		ctx.rect(10,10,60,80);
+		ctx.stroke();
+
+		ctx.font = "16px Arial"
+		ctx.fillStyle = "black";	
+		ctx.fillText("Discard",14,50);
 	}
 
 	/*
 	Draws all the cards in the discared pile
 	*/
 	drawDiscardedCards(ctx) {
-		ctx.fillRect(100,10,80,80);
+		ctx.fillStyle = "#d1d1d1";
+
+		ctx.beginPath();
+		ctx.rect(20,20,800,480);
+		ctx.fill();
+		alert("asdf");
+
+		dynamicDrawables.push(new DynamicDrawable(function (){
+			ctx.fillStyle = "#d1d1d1";
+			ctx.beginPath();
+			ctx.rect(20,20,800,480);
+			ctx.fill();
+		}));
+
 	}
 
 	/*
