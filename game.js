@@ -1,45 +1,41 @@
-var players = [];
-var currentPlayer = 0;
-var numInfoTokens = 0;
-var livesLeft = 0;
-var ctx;
+class Game {
 
-var deck = [];
-var hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
-var table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
-var discard = [];
+	constructor(canvasContext){
+		this.players = [];
+		this.currentPlayer = 0;
+		this.numInfoTokens = 8;
+		this.livesLeft = 3;
+		this.ctx = canvasContext;
 
-var hitAreas = [];
+		this.deck = [];
+		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
+		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
+		this.discard = [];
 
-var menuHitFlag = false;
+		this.hitAreas = [];
 
-var dynamicDrawables = [];
+		this.menuHitFlag = false;
+
+		this.dynamicDrawables = [];
+
+		this.initializeDeck(deck);
+		this.initializeHands(hands);
+		this.initializeHitAreas();
+	}
 
 
 //-----------------------------------------------
 
 /*
-called at the beginning of every game to start it up
-*/
-function initialize(canvasContext) {
-	initializeDeck();
-	initializeHands();
-	livesLeft = 3;
-	numInfoTokens = 8;
-	initializeHitAreas();
-	ctx = canvasContext;
-}
-
-/*
 load the deck with 3 of each color 1, 2 of each color 2-4 and 1 of each color 5 
 shuffles deck
 */
-function initializeDeck() {
-	createSuite("red");
-	createSuite("purple");
-	createSuite("blue");
-	createSuite("green");
-	createSuite("yellow");
+initializeDeck(deck) {
+	this.createSuite("red", deck);
+	this.createSuite("purple", deck);
+	this.createSuite("blue", deck);
+	this.createSuite("green", deck);
+	this.createSuite("yellow", deck);
 
 	deck = shuffle(deck);
 }
@@ -47,10 +43,9 @@ function initializeDeck() {
 /*
 adds a specific color to the deck
 */
-
-function createSuite(color) {
+createSuite(color, deck) {
 	for (i = 1; i < 6; i++) {
-		card = new Card(color,i);
+		let card = new Card(color,i);
 		deck.push(card);
 		if (i < 5) {
 			deck.push(card);
@@ -64,8 +59,7 @@ function createSuite(color) {
 /*
 Shamelessly stolen array shuffling code 
 */
-
-function shuffle(array) {
+shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
@@ -87,7 +81,7 @@ function shuffle(array) {
 /*
 draw the correct number of cards to each players hands
 */
-function initializeHands() {
+initializeHands(hands) {
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < hands.length; j++) {
 			hands[j][i] = deck.pop();
@@ -100,8 +94,8 @@ function initializeHands() {
 /*
 player and card being the player number and the order of the card in his hand
 */
-function draw(player, cardPos) {
-	card = deck.pop();
+draw(player, cardPos, hands) {
+	let card = deck.pop();
 
 	if (card == 'undefined') {
 		//Game over condition triggered
@@ -110,21 +104,21 @@ function draw(player, cardPos) {
 	hands[player][cardPos] = card;
 }
 
-function discardCard(player, cardPos) {
-	if (numInfoTokens == 8) {
+discardCard(player, cardPos, hands, discard) {
+	if (this.numInfoTokens == 8) {
 		//Prevent player from doing action
 	}
 	else {
     	discard.push(hands[player][cardPos]);
-		draw(player,cardPos);
-		numInfoTokens++;
+		this.draw(player,cardPos, hands);
+		this.numInfoTokens++;
 	} 
 }
 
 /* 
 Rearranges the array in order to move cards around in one's hand 
 */
-function rearrange(player, cardPos, newPos) {
+rearrange(player, cardPos, newPos) {
 	temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
 
 	hands[player][cardPos] = hands[player][newPos];
@@ -136,7 +130,7 @@ function rearrange(player, cardPos, newPos) {
 Plays a card from one's hand to the board.
 */
 
-function playCard(player,cardPos) {
+playCard(player,cardPos) {
 	played = hands[player][cardPos];
   
 	switch(played.color) {
@@ -167,7 +161,7 @@ function playCard(player,cardPos) {
 Helper function for playCard which determines whether the move is valid or not
 */
 
-function evaluatePlayed(tableNumber, played, player, cardPos) {
+evaluatePlayed(tableNumber, played, player, cardPos) {
 	if(typeof table[tableNumber][0] == 'undefined')
 	{
   		if(played.number == 1)
@@ -196,7 +190,7 @@ function evaluatePlayed(tableNumber, played, player, cardPos) {
 }
 
 /*the player to give info to*/
-function giveInfoColor(color, player, cardPos) {
+giveInfoColor(color, player, cardPos) {
 		var col = hands[player][cardPos].color;
 		var info = "";
 		for (i = 0 ; i < 5; i++) {
@@ -212,7 +206,7 @@ function giveInfoColor(color, player, cardPos) {
  
 }
 
-function giveInfoNumber(number, player, cardPos) {
+giveInfoNumber(number, player, cardPos) {
 		var num = hands[player][cardPos].number;
 		var info = "";
 		for (i = 0 ; i < 5; i++) {
@@ -233,7 +227,7 @@ function giveInfoNumber(number, player, cardPos) {
 /*
 renders the entire board
 */
-function render() {
+render() {
 	//clear rect
 	ctx.clearRect(0,0,1000,600);
 	drawUI();
@@ -256,7 +250,7 @@ function render() {
 /*
 draws the hand of the player selected
 */
-function drawHand(player) {
+drawHand(player) {
 	var xPos = 0;
 	var yPos = 0;
 
@@ -293,7 +287,7 @@ function drawHand(player) {
 	}
 }
 
-function drawCard(num, color, x, y, scale) {
+drawCard(num, color, x, y, scale) {
 	var img = new Image();
 	img.src = color+"Card.jpg"
 	img.onload = function () {
@@ -307,7 +301,7 @@ function drawCard(num, color, x, y, scale) {
 /*
 draws the table in the middle
 */
-function drawTable() {
+drawTable() {
 	//table arrays go in the order: red | blue | green | yellow | purple
 
 	var colors = ['red','blue','green','yellow','purple']
@@ -333,21 +327,21 @@ function drawTable() {
 /*
 Draws the discarded pile to to screen (not all the cards, just the pile)
 */
-function drawDiscarded() {
+drawDiscarded() {
 	ctx.fillRect(10,10,80,80);
 }
 
 /*
 Draws all the cards in the discared pile
 */
-function drawDiscardedCards(ct) {
+drawDiscardedCards(ct) {
 	ctx.fillRect(100,10,80,80);
 }
 
 /*
 draw all the static images
 */
-function drawUI() {
+drawUI() {
 	ctx.fillStyle = "#BFBFBF";
 	ctx.beginPath();
 	//x, y, r start angle, end angle
@@ -355,7 +349,7 @@ function drawUI() {
 	ctx.fill();
 }
 
-function drawInfoCounter(numInfoTokens) {
+drawInfoCounter(numInfoTokens) {
 	var centerx = 100;
 	var centery = 500;
 	var radius = 40;
@@ -379,7 +373,7 @@ function drawInfoCounter(numInfoTokens) {
 /*
 draws the bomb and string
 */
-function drawLives(livesLeft) {
+drawLives(livesLeft) {
 	ctx.fillStyle = "#000000";
 	ctx.beginPath();
 	ctx.arc(900,500,40,0,2*Math.PI);
@@ -399,7 +393,7 @@ function drawLives(livesLeft) {
 /*
 
 */
-function initializeHitAreas() {
+initializeHitAreas() {
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
 		drawDiscardedCards();
@@ -451,7 +445,7 @@ function initializeHitAreas() {
 Gives options for the player to give either discard or play their own cards.
 */
 
-function showPlayerOptions(player,cardPos) {
+showPlayerOptions(player,cardPos) {
 	var xPos = 0;
 	var yPos = 0;
 
@@ -514,7 +508,7 @@ function showPlayerOptions(player,cardPos) {
 Gives options for the player to give information on another player's card.
 */
 
-function showAllyOptions(player,cardPos) {
+showAllyOptions(player,cardPos) {
 	var xPos = 0;
 	var yPos = 0;
 	switch(player){
@@ -622,7 +616,7 @@ function checkForHit(x, y) {
 /*
 loop through the hit areas are does the apprpriate action. The control
 */
-function checkForHit(x, y) {
+checkForHit(x, y) {
 	var clickAction = function (){};
 	hitAreas.forEach(function(item, index) {
 		ctx.strokeStyle="red";
@@ -649,7 +643,7 @@ function checkForHit(x, y) {
 
 
 //is a point in a rect?
-function collides(xp, yp, hitArea) {
+collides(xp, yp, hitArea) {
 	if (hitArea.x < xp && hitArea.x+hitArea.w > xp) {
 		if (hitArea.y < yp && hitArea.y+hitArea.h > yp) {
 			return true;
@@ -659,16 +653,16 @@ function collides(xp, yp, hitArea) {
 }
 
 //check to see if game ended
-function isGameOver() {
+isGameOver() {
 	return false;
 }
 
 //calculates and returns the current score
-function getScore() {
+getScore() {
 	return 0;
 }
 
-function testingHit()
+testingHit()
 {
 	for(i = 0; i < hitAreas.length;i++)
 	{
@@ -676,3 +670,4 @@ function testingHit()
 	}
 }
 
+}
