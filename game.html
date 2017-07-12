@@ -5,22 +5,22 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="classes.js"></script>
-	<script src="header.js"></script>
+	<script src="game.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var canv = document.getElementById("drawArea");
 			var ctx = canv.getContext("2d");
+			var game = new Game(ctx);
 
 			canv.addEventListener('click', function(event) {
 			    var x = event.pageX,
 			        y = event.pageY;
 
 				canvasRect = canv.getBoundingClientRect();
-			    checkForHit(x-canvasRect.left, y-canvasRect.top);
+			    game.checkForHit(x-canvasRect.left, y-canvasRect.top, game);
 		    });
 
-		    initialize(ctx);
-		    render();
+		    game.render(ctx);
 		});
 	</script>
 	<title>Hanabi</title>
