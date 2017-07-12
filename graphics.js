@@ -64,13 +64,14 @@ function drawHand(player, ctx, hands) {
 
 function drawCard(num, color, x, y, scale, ctx) {
 	let img = new Image();
-	img.src = color+"Card.jpg"
+	//img.src = color+"Card.jpg"
 	img.onload = function () {
 		ctx.drawImage(img, x, y, 100*scale, 150*scale);
 		ctx.font = 70*scale+'px serif';
 		ctx.fillStyle = 'black';
 		ctx.fillText(num, x+33*scale, y+110*scale);
 	}
+	img.src = color+"Card.jpg"
 }
 
 
@@ -121,18 +122,15 @@ Draws all the cards in the discared pile
 
 
 function drawDiscardedCards(ctx,game) {
-	
+		//alert(game.discardedCards.length);
 		ctx.fillStyle = "#e9e2e2";	
 		ctx.beginPath();
 		ctx.rect(100,50,800,480);
 		ctx.fill();
 
-		alert(game.discardedCards.length);
-
 		for(let cards = 0 ; cards < game.discardedCards.length; cards++) {
 			drawCard(game.discardedCards[cards].number,game.discardedCards[cards].color,150 + (50* cards),60,0.4,ctx);
 		}
-
 }
 
 /*
