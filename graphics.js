@@ -1,5 +1,5 @@
 //-----------------------------------------------
-
+var dynamicDrawables = [];
 /*
 renders the entire board
 */
@@ -17,7 +17,7 @@ function render(ctx, game) {
 	drawInfoCounter(game.numInfoTokens, ctx);
 	drawDiscarded(ctx);
 
-	game.dynamicDrawables.forEach(function(item) {
+	dynamicDrawables.forEach(function(item) {
 		item.draw(ctx);
 	});
 }
