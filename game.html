@@ -10,20 +10,28 @@
 	<script src="interaction.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var canv = document.getElementById("drawArea");
-			var ctx = canv.getContext("2d");
-			var game = new Game();
+			$('#back').click(function(){
+				window.location='index.html';
+			});
+			$("#gameArea1").hide();
+			$("#start").click(function(){
+				$("#gameArea1").show();
+				let numPlayers = $("#playerSelector").val();
+				let canv = document.getElementById("drawArea");
+				let ctx = canv.getContext("2d");
+				let game = new Game(numPlayers);
 
-			canv.addEventListener('click', function(event) {
-			    var x = event.pageX,
-			        y = event.pageY;
+				canv.addEventListener('click', function(event) {
+				    let x = event.pageX,
+				        y = event.pageY;
 
-				canvasRect = canv.getBoundingClientRect();
-			    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
-		    	render(ctx, game);
-		    });
-			initializeHitAreas();
-		    render(ctx, game);
+					canvasRect = canv.getBoundingClientRect();
+				    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
+			    	render(ctx, game);
+			    });
+				initializeHitAreas();
+			    render(ctx, game);
+			});
 
 		});
 	</script>
@@ -33,9 +41,22 @@
 </head>
 <body>
 <center>
-	<canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
-	<hr>
-	<button type="button" class="btn btn-default" onclick="window.location='index.html'">back</button>
+	<div id = 'startPrompt'>
+		<span>Enter number of players: </span>
+		<select id = 'playerSelector'>
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+		</select>
+		<button type="button" class="btn btn-default" id="start">Start!</button>
+	</div>
+	<div id = 'gameArea1'>
+		<canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+		<hr>
+		<button type="button" class="btn btn-default" id="back">back</button>
+	</div>
 </center>
 </body>
 </html>
