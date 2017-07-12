@@ -12,7 +12,7 @@
 		$(document).ready(function(){
 			var canv = document.getElementById("drawArea");
 			var ctx = canv.getContext("2d");
-			var game = new Game(ctx);
+			var game = new Game();
 
 			canv.addEventListener('click', function(event) {
 			    var x = event.pageX,
