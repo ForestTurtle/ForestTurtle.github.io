@@ -67,8 +67,6 @@ showPlayerOptions(player,cardPos) {
 /*
 Gives options for the player to give information on another player's card.
 */
-
-
 function showAllyOptions(player, cardPos, hands) {
 	let xPos = 0;
 	let yPos = 0;
@@ -142,6 +140,7 @@ function initializeHitAreas() {
 			drawDiscardedCards(ctx);
 		}));
 		drawAreasToRemove++;
+
 		hitAreas.push(new HitArea(100, 10, 80, 80, function(game){	
 			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
 		}));

@@ -1,20 +1,15 @@
 class Game {
 
-	constructor(canvasContext){
+	constructor(){
 		this.players = [];
 		this.currentPlayer = 0;
 		this.numInfoTokens = 8;
 		this.livesLeft = 3;
-		this.ctx = canvasContext;
 
 		this.deck = [];
 		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
-		this.discard = [];
-
-
-		//this.menuHitFlag = false;
-
+		this.discardedCards = [];
 
 		this.initializeDeck(this.deck);
 		this.initializeHands(this.hands, this.deck);
@@ -98,109 +93,6 @@ class Game {
 
 	//-----------------------------------------------
 
-	/*
-
-	//player and card being the player number and the order of the card in his hand
-
-	draw(player, cardPos, hands) {
-		let card = deck.pop();
-
-		if (card == 'undefined') {
-			//Game over condition triggered
-		}
-
-		hands[player][cardPos] = card;
-	}
-
-	discardCard(player, cardPos, hands, discard) {
-		if (this.numInfoTokens == 8) {
-			//Prevent player from doing action
-		}
-		else {
-	    	discard.push(hands[player][cardPos]);
-			this.draw(player,cardPos, hands);
-			this.numInfoTokens++;
-		} 
-	}
-	*/
-
-	 
-	//Rearranges the array in order to move cards around in one's hand 
-	/*
-	rearrange(player, cardPos, newPos, hands) {
-		temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
-
-		hands[player][cardPos] = hands[player][newPos];
-
-		hands[player][newPos] = temp;
-	}*/
-
-	/*
-	Plays a card from one's hand to the board.
-	*/
-	/*
-	playCard(player, cardPos, hands) {
-		played = hands[player][cardPos];
-	  
-		switch(played.color) {
-		
-		case 'red':
-			evaluatePlayed(0,played,player,cardPos);
-		    break;
-
-		case 'blue':
-			evaluatePlayed(1,played,player,cardPos);
-			break;
-
-		case 'green':
-		  	evaluatePlayed(2,played,player,cardPos);
-		   	break;
-
-		case 'yellow':
-		  	evaluatePlayed(3,played,player,cardPos);
-		    break;
-
-		case 'purple':
-		  	evaluatePlayed(4,played,player,cardPos);
-		    break;
-		} 
-	}
-	*/
-
-
-	/*
-	Helper function for playCard which determines whether the move is valid or not
-	*/
-	/*
-	evaluatePlayed(tableNumber, played, player, cardPos) {
-		if(typeof table[tableNumber][0] == 'undefined')
-		{
-	  		if(played.number == 1)
-	    	{
-				table[tableNumber][0] = played;
-				draw(player,cardPos);
-	    	}	
-	    
-	    	else
-	    	{
-	    		livesLeft--;
-			}
-	  	}
-		else
-		{
-	  		if(typeof table[tableNumber][played.number - 2] != 'undefined')
-	    	{
-	    		table[tableNumber][played.number-1] = played;
-	    		draw(player,cardPos);
-	    	}
-	    	else
-	    	{
-	    		livesLeft--;
-	    	}
-	  	}
-	}
-	*/
-
 
 	/*the player to give info to*/
 	giveInfoColor(color, player, cardPos, hands) {
@@ -232,4 +124,101 @@ class Game {
 		info = info + "is/are " + number;
 		alert(info);
 	}
+
+	//player and card being the player number and the order of the card in his hand
+	//returns false when at full info tokens
+	discard(player, cardPos) {
+		if (this.numInfoTokens == 8) {
+			//Prevent player from doing action
+			return false;
+		} else {
+	    	this.discardedCards.push(this.hands[player][cardPos]);
+			this.draw(player,cardPos, hands);
+			this.numInfoTokens++;
+			return true;
+		} 
+	} 
+
+
+	/*
+	Plays a card from one's hand to the board.
+	*/
+	playCard(player, cardPos) {
+		let played = this.hands[player][cardPos];
+	  
+		switch(played.color) {
+		
+		case 'red':
+			evaluatePlayed(0,played,player,cardPos);
+		    break;
+
+		case 'blue':
+			evaluatePlayed(1,played,player,cardPos);
+			break;
+
+		case 'green':
+		  	evaluatePlayed(2,played,player,cardPos);
+		   	break;
+
+		case 'yellow':
+		  	evaluatePlayed(3,played,player,cardPos);
+		    break;
+
+		case 'purple':
+		  	evaluatePlayed(4,played,player,cardPos);
+		    break;
+		} 
+	}
+
+	draw(player, cardPos) {
+		let card = deck.pop();
+		if (card == 'undefined') {
+			//todo: Game over condition triggered
+		}
+		this.hands[player][cardPos] = card;
+	}
+	
+	//Rearranges the array in order to move cards around in one's hand 
+	/*
+	rearrange(player, cardPos, newPos, hands) {
+		temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
+
+		hands[player][cardPos] = hands[player][newPos];
+
+		hands[player][newPos] = temp;
+	}*/
+
+	/*
+	Helper function for playCard which determines whether the move is valid or not
+	*/
+	
+	evaluatePlayed(tableNumber, played, player, cardPos) {
+		if(!table[tableNumber][0])
+		{
+	  		if(played.number == 1)
+	    	{
+				table[tableNumber][0] = played;
+				draw(player,cardPos);
+	    	}	
+	    
+	    	else
+	    	{
+	    		livesLeft--;
+			}
+	  	}
+		else
+		{
+	  		if(table[tableNumber][played.number - 2] && !table[tableNumber][played.number - 1])
+	    	{
+	    		table[tableNumber][played.number-1] = played;
+	    		this.draw(player,cardPos);
+	    	}
+	    	else
+	    	{
+	    		livesLeft--;
+	    	}
+	  	}
+	}
+	
+
 }
