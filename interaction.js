@@ -1,4 +1,4 @@
-var hitAreas = [];
+let hitAreas = [];
 
 /*
 Gives options for the player to give either discard or play their own cards.
@@ -182,7 +182,7 @@ function initializeHitAreas() {
 loop through the hit areas are does the apprpriate action. The control
 */
 function checkForHit(x, y, game) {
-	var clickAction = function (){};
+	let clickAction = function (){};
 
 	hitAreas.forEach(function(item, index) {
 		//for testing only

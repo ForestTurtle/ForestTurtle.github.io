@@ -1,5 +1,5 @@
 //-----------------------------------------------
-var dynamicDrawables = [];
+let dynamicDrawables = [];
 /*
 renders the entire board
 */

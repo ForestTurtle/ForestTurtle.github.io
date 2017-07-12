@@ -12,15 +12,12 @@ class Game {
 		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
 		this.discard = [];
 
-		//this.hitAreas = [];
 
 		this.menuHitFlag = false;
 
-		//this.dynamicDrawables = [];
 
 		this.initializeDeck(this.deck);
 		this.initializeHands(this.hands, this.deck);
-		//this.initializeHitAreas(this.hitAreas, this);
 	}
 
 
