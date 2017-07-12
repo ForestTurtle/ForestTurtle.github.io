@@ -116,19 +116,18 @@ function drawDiscarded(ctx) {
 /*
 Draws all the cards in the discared pile
 */
+
 function drawDiscardedCards(ctx) {
-	ctx.fillStyle = "#d1d1d1";
-
-	ctx.beginPath();
-	ctx.rect(20,20,800,480);
-	ctx.fill();
-	alert("asdf");
-
-	dynamicDrawables.push(new DynamicDrawable(function (){
-		ctx.fillStyle = "#d1d1d1";
+	
+	dynamicDrawables.push(new DynamicDrawable(function (ctx){
+		ctx.fillStyle = "#e9e2e2";	
 		ctx.beginPath();
-		ctx.rect(20,20,800,480);
+		ctx.rect(100,50,800,480);
 		ctx.fill();
+
+		for(let cards = 0 ; cards < discard.length; cards++) {
+			drawCard(discard[cards].number,discard[cards].player,150,60,0.4,ctx);
+		}
 	}));
 
 }
