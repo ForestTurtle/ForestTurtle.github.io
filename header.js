@@ -597,6 +597,7 @@ function showAllyOptions(player,cardPos) {
 	}));
 }
 
+/*
 function normalCollision(x,y) {
 	hitAreas.forEach(function(item, index) {
 		ctx.strokeStyle="red";
@@ -611,9 +612,10 @@ function normalCollision(x,y) {
 	});
 }
 
-/*
+
 loop through the hit areas are does the apprpriate action. The control
 */
+/*
 function checkForHit(x, y) {
 	if(menuHitFlag == true) //card menus are open
 	{
@@ -635,6 +637,37 @@ function checkForHit(x, y) {
 	}
 	render();
 }
+*/
+
+
+/*
+loop through the hit areas are does the apprpriate action. The control
+*/
+function checkForHit(x, y) {
+	var clickAction = function (){};
+	hitAreas.forEach(function(item, index) {
+		ctx.strokeStyle="red";
+		ctx.beginPath();
+		ctx.rect(item.x,item.y,item.w,item.h);
+		ctx.stroke(); 
+		
+		if (collides(x, y, item)){
+			clickAction = item.action;
+		}
+	});
+
+	//can later make it something like: hitAreasToRemove and drawAreasToRemove and make it a loop
+	if (menuHitFlag){
+ 		hitAreas.pop();
+		hitAreas.pop();
+		dynamicDrawables.pop();
+		dynamicDrawables.pop();
+	}
+	clickAction();
+	render();
+}
+
+
 
 //is a point in a rect?
 function collides(xp, yp, hitArea) {
