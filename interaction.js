@@ -134,9 +134,6 @@ function initializeHitAreas() {
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(game){
 		drawDiscardedCards();
-		hitAreas.push(new HitArea(100, 10, 80, 80, function(game){	
-			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
-		}));
 	}));
 
 	for(let i = 0; i < 5; i++){ //Change iterator to add players? 
