@@ -7,6 +7,7 @@
 	<script src="classes.js"></script>
 	<script src="game.js"></script>
 	<script src="graphics.js"></script>
+	<script src="interaction.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var canv = document.getElementById("drawArea");
@@ -18,11 +19,12 @@
 			        y = event.pageY;
 
 				canvasRect = canv.getBoundingClientRect();
-			    game.checkForHit(x-canvasRect.left, y-canvasRect.top, game);
+			    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
 		    	render(ctx, game);
 		    });
-
+			initializeHitAreas();
 		    render(ctx, game);
+
 		});
 	</script>
 	<title>Hanabi</title>
