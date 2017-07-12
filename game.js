@@ -295,7 +295,6 @@ class Game {
 	Gives options for the player to give information on another player's card.
 	*/
 
-
 	showAllyOptions(player, cardPos, hands) {
 		let xPos = 0;
 		let yPos = 0;
@@ -360,11 +359,9 @@ class Game {
 
 	initializeHitAreas(hitAreas) {
 		//the discard pile
-		hitAreas.push(new HitArea(10, 10, 80, 80, function(game){
+		hitAreas.push(new HitArea(10, 10, 60, 80, function(game){
+			alert("zxcv");
 			game.drawDiscardedCards();
-			game.hitAreas.push(new HitArea(100, 10, 80, 80, function(game){	
-				game.hitAreas.pop(); //assumes that this is the newest hit area and removes itself
-			}));
 		}));
 
 		for(let i = 0; i < 5; i++){ //Change iterator to add players? 
@@ -415,11 +412,12 @@ class Game {
 		var clickAction = function (){};
 
 		game.hitAreas.forEach(function(item, index) {
-			//for testing only
+			
 			game.ctx.strokeStyle="red";
 			game.ctx.beginPath();
 			game.ctx.rect(item.x,item.y,item.w,item.h);
-			game.ctx.stroke(); 
+			game.ctx.stroke();
+			
 			
 			if (game.collides(x, y, item)){
 				clickAction = item.action;
@@ -434,6 +432,8 @@ class Game {
 			game.dynamicDrawables.pop();
 			game.menuHitFlag = false;
 		}
+
+
 		clickAction(game);
 	}
 

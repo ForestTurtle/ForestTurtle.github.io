@@ -117,19 +117,9 @@ function drawDiscarded(ctx) {
 Draws all the cards in the discared pile
 */
 function drawDiscardedCards(ctx) {
-	ctx.fillStyle = "#d1d1d1";
 
-	ctx.beginPath();
-	ctx.rect(20,20,800,480);
-	ctx.fill();
 	alert("asdf");
 
-	dynamicDrawables.push(new DynamicDrawable(function (){
-		ctx.fillStyle = "#d1d1d1";
-		ctx.beginPath();
-		ctx.rect(20,20,800,480);
-		ctx.fill();
-	}));
 
 }
 
