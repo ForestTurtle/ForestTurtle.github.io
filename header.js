@@ -334,14 +334,30 @@ function drawTable() {
 Draws the discarded pile to to screen (not all the cards, just the pile)
 */
 function drawDiscarded() {
-	ctx.fillRect(10,10,80,80);
+	ctx.fillStyle = "black";
+	ctx.beginPath();
+	ctx.rect(10,10,60,80);
+	ctx.stroke();
+
+	ctx.font = "16px Arial"
+	ctx.fillStyle = "black";	
+	ctx.fillText("Discard",14,50);
+
 }
 
 /*
 Draws all the cards in the discared pile
 */
-function drawDiscardedCards(ct) {
-	ctx.fillRect(100,10,80,80);
+function drawDiscardedCards() {
+ctx.fillStyle = "#d1d1d1";
+alert("asdf");
+ctx.beginPath();
+ctx.rect(20,20,800,480);
+ctx.fill();
+alert("asdf");
+
+
+
 }
 
 /*
@@ -401,12 +417,8 @@ function drawLives(livesLeft) {
 */
 function initializeHitAreas() {
 	//the discard pile
-	hitAreas.push(new HitArea(10, 10, 80, 80, function(){
+	hitAreas.push(new HitArea(10, 10, 60, 80, function(){
 		drawDiscardedCards();
-		hitAreas.push(new HitArea(100, 10, 80, 80, function(){
-			render();
-			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
-		}));
 	}));
 	
 	for(let i = 0; i < 5; i++){ //Change iterator to add players? 
@@ -641,6 +653,7 @@ function checkForHit(x, y) {
 		hitAreas.pop();
 		dynamicDrawables.pop();
 		dynamicDrawables.pop();
+		menuHitFlag = false;
 	}
 	clickAction();
 	render();
