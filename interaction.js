@@ -139,7 +139,7 @@ function initializeHitAreas() {
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(game){		
 		dynamicDrawables.push(new DynamicDrawable(function (ctx){
-			drawDiscardedCards(ctx);
+			drawDiscardedCards(ctx,game);
 		}));
 		drawAreasToRemove++;
 		hitAreas.push(new HitArea(100, 10, 80, 80, function(game){	

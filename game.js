@@ -10,7 +10,7 @@ class Game {
 		this.deck = [];
 		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
-		this.discard = [];
+		this.discard = [new Card('red',1), new Card('blue',1)];
 
 
 		//this.menuHitFlag = false;
@@ -19,6 +19,7 @@ class Game {
 		this.initializeDeck(this.deck);
 		this.initializeHands(this.hands, this.deck);
 	}
+
 
 
 	//-----------------------------------------------
@@ -35,6 +36,7 @@ class Game {
 		this.createSuite("yellow", deck);
 
 		deck = this.shuffle(deck);
+
 	}
 
 	/*

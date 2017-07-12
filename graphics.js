@@ -120,15 +120,17 @@ Draws all the cards in the discared pile
 */
 
 
-function drawDiscardedCards(ctx) {
+function drawDiscardedCards(ctx,game) {
 	
 		ctx.fillStyle = "#e9e2e2";	
 		ctx.beginPath();
 		ctx.rect(100,50,800,480);
 		ctx.fill();
 
-		for(let cards = 0 ; cards < discard.length; cards++) {
-			drawCard(discard[cards].number,discard[cards].player,150,60,0.4,ctx);
+		//alert(game.discard[0].number)
+
+		for(let cards = 0 ; cards < game.discard.length; cards++) {
+			drawCard(game.discard[cards].number,game.discard[cards].color,150 + (50* cards),60,0.4,ctx);
 		}
 
 }
