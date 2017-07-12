@@ -9,7 +9,7 @@ class Game {
 		this.deck = [];
 		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
-		this.discardedCards = [];
+		this.discardedCards = [new Card('red',1), new Card('blue',5)];
 
 		this.initializeDeck(this.deck);
 		this.initializeHands(this.hands, this.deck);

@@ -127,10 +127,10 @@ function drawDiscardedCards(ctx,game) {
 		ctx.rect(100,50,800,480);
 		ctx.fill();
 
-		//alert(game.discard[0].number)
+		alert(game.discardedCards.length);
 
-		for(let cards = 0 ; cards < game.discard.length; cards++) {
-			drawCard(game.discard[cards].number,game.discard[cards].color,150 + (50* cards),60,0.4,ctx);
+		for(let cards = 0 ; cards < game.discardedCards.length; cards++) {
+			drawCard(game.discardedCards[cards].number,game.discardedCards[cards].color,150 + (50* cards),60,0.4,ctx);
 		}
 
 }
