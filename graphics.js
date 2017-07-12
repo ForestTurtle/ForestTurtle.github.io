@@ -64,14 +64,13 @@ function drawHand(player, ctx, hands) {
 
 function drawCard(num, color, x, y, scale, ctx) {
 	let img = new Image();
-	//img.src = color+"Card.jpg"
+	img.src = color+"Card.jpg"
 	img.onload = function () {
 		ctx.drawImage(img, x, y, 100*scale, 150*scale);
 		ctx.font = 70*scale+'px serif';
 		ctx.fillStyle = 'black';
 		ctx.fillText(num, x+33*scale, y+110*scale);
 	}
-	img.src = color+"Card.jpg"
 }
 
 
@@ -96,7 +95,6 @@ function drawTable(table, ctx) {
 			if(typeof table[i][j] != 'undefined')
 			{
 				drawCard(table[i][j].number,table[i][j].color,375 + (50*i),200,0.4)
-
 			}
 		}
 	}
@@ -110,7 +108,7 @@ function drawDiscarded(ctx) {
 	ctx.beginPath();
 	ctx.rect(10,10,60,80);
 	ctx.stroke();
-
+	
 	ctx.font = "16px Arial"
 	ctx.fillStyle = "black";	
 	ctx.fillText("Discard",14,50);
@@ -122,15 +120,19 @@ Draws all the cards in the discared pile
 
 
 function drawDiscardedCards(ctx,game) {
-		//alert(game.discardedCards.length);
+	
+		// alert(game.discardedCards.length);
+
 		ctx.fillStyle = "#e9e2e2";	
 		ctx.beginPath();
 		ctx.rect(100,50,800,480);
 		ctx.fill();
 
+
 		for(let cards = 0 ; cards < game.discardedCards.length; cards++) {
 			drawCard(game.discardedCards[cards].number,game.discardedCards[cards].color,150 + (50* cards),60,0.4,ctx);
 		}
+
 }
 
 /*
