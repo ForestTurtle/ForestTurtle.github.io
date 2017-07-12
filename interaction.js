@@ -1,5 +1,6 @@
 let hitAreas = [];
-
+let hitAreasToRemove = 0;
+let drawAreasToRemove = 0;
 /*
 Gives options for the player to give either discard or play their own cards.
 */
@@ -110,6 +111,7 @@ function showAllyOptions(player, cardPos, hands) {
 		ctx.font = "16px Arial";
 		ctx.fillText("C",xPos+5,yPos-14);
 	}));
+	drawAreasToRemove++;
 
 	dynamicDrawables.push(new DynamicDrawable(function (ctx){
 		ctx.fillStyle = "black";	
@@ -120,31 +122,42 @@ function showAllyOptions(player, cardPos, hands) {
 		ctx.font = "16px Arial";
 		ctx.fillText("#",xPos+25,yPos-14);
 	}));
+	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
 		game.giveInfoColor(hands[player][cardPos].color, player, cardPos, hands); 
 	}));
+	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
 		game.giveInfoNumber(hands[player][cardPos].number, player, cardPos, hands); 
 	}));
+	hitAreasToRemove++;
 }
 
 function initializeHitAreas() {
 	//the discard pile
-	hitAreas.push(new HitArea(10, 10, 80, 80, function(game){
-		drawDiscardedCards();
+	hitAreas.push(new HitArea(10, 10, 80, 80, function(game){		
+		dynamicDrawables.push(new DynamicDrawable(function (ctx){
+			drawDiscardedCards(ctx);
+		}));
+		drawAreasToRemove++;
 		hitAreas.push(new HitArea(100, 10, 80, 80, function(game){	
 			hitAreas.pop(); //assumes that this is the newest hit area and removes itself
 		}));
+		hitAreasToRemove++;
 	}));
+	initializeCardHitboxes();
+}
 
-	for(let i = 0; i < 5; i++){ //Change iterator to add players? 
-		for(let j = 0; j < 5; j++){
+function initializeCardHitboxes(){
+	for(let player = 0; player < 5; player++){ //Change iterator to add players? 
+		for(let card = 0; card < 5; card++){
 
 			let xPos = 0;
 			let yPos = 0;
-			switch(i){
+
+			switch(player){
 				case 0: //Center
 					xPos = 380;
 					yPos = 450;
@@ -171,9 +184,8 @@ function initializeHitAreas() {
 					break;
 			}
 
-			hitAreas.push(new HitArea(xPos + (50*j),yPos,40,60, function(game){
-				game.menuHitFlag = true;
-				showAllyOptions(i, j, game.hands);
+			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
+				showAllyOptions(player, card, game.hands);
 			}));
 		}
 	}
@@ -185,24 +197,27 @@ function checkForHit(x, y, game) {
 	let clickAction = function (){};
 
 	hitAreas.forEach(function(item, index) {
-		//for testing only
-		// game.ctx.strokeStyle="red";
-		// game.ctx.beginPath();
-		// game.ctx.rect(item.x,item.y,item.w,item.h);
-		// game.ctx.stroke(); 
-		
+		// no longer works
+		// dynamicDrawables.push(new DynamicDrawable(function (ctx){
+		// 	ctx.strokeStyle="red";
+		// 	ctx.beginPath();
+		// 	ctx.rect(item.x,item.y,item.w,item.h);
+		// 	ctx.stroke(); 
+		// }));
+
 		if (collides(x, y, item)){
 			clickAction = item.action;
 		}
 	});
 
-	//can later make it something like: hitAreasToRemove and drawAreasToRemove and make it a loop
-	if (game.menuHitFlag){
- 		hitAreas.pop();
-		hitAreas.pop();
+	for (let i = hitAreasToRemove; i > 0 ; i--) {
+		hitAreas.pop()
+		hitAreasToRemove--;
+	}
+
+	for (let i = drawAreasToRemove; i > 0 ; i--) {
 		dynamicDrawables.pop();
-		dynamicDrawables.pop();
-		game.menuHitFlag = false;
+		drawAreasToRemove--;
 	}
 	clickAction(game);
 }

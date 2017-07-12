@@ -13,7 +13,7 @@ class Game {
 		this.discard = [];
 
 
-		this.menuHitFlag = false;
+		//this.menuHitFlag = false;
 
 
 		this.initializeDeck(this.deck);
