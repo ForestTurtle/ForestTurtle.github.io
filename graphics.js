@@ -18,7 +18,7 @@ function render(ctx, game) {
 	drawLives(game.livesLeft, ctx);
 	drawInfoCounter(game.numInfoTokens, ctx);
 	drawDiscarded(ctx);
-
+	drawDeck(ctx, game.deck);
 	dynamicDrawables.forEach(function(item) {
 		item.draw(ctx);
 	});
@@ -65,15 +65,6 @@ function drawHand(player, ctx, hands) {
 }
 
 function drawCard(num, color, x, y, scale, ctx) {
-
-		// let images = [];
-		// let colors = ['red','blue','green','yellow','purple'];
-
-		// for (i = 0; i < colors.length; i++) {
-		// 	images[i] = new Image();
-		// 	images[i].src = colors[i]+"Card.jpg";
-		// }
-		
 		let img = images[0];
 		switch(color) {
 			case 'blue':
@@ -89,7 +80,6 @@ function drawCard(num, color, x, y, scale, ctx) {
 				img = images[4];
 				break;
 		}
-		
 
 		ctx.drawImage(img, x, y, 100*scale, 150*scale);
 		ctx.font = 70*scale+'px serif';
@@ -131,12 +121,28 @@ Draws the discarded pile to to screen (not all the cards, just the pile)
 function drawDiscarded(ctx) {
 	ctx.fillStyle = "black";
 	ctx.beginPath();
-	ctx.rect(10,10,60,80);
+	ctx.rect(40,30,60,80);
 	ctx.stroke();
 	
 	ctx.font = "16px Arial"
 	ctx.fillStyle = "black";	
-	ctx.fillText("Discard",14,50);
+	ctx.fillText("Discarded Cards",10,20);
+	ctx.fillText("Click",53,70);
+}
+
+/*
+Draws the deck to screen (not all the cards, just the pile)
+*/
+function drawDeck(ctx, deck) {
+	ctx.fillStyle = "black";
+	ctx.beginPath();
+	ctx.rect(880,30,60,80);
+	ctx.stroke();
+	
+	ctx.font = "16px Arial"
+	ctx.fillStyle = "black";	
+	ctx.fillText("Deck",890,20);
+	ctx.fillText(deck.length,900,70);
 }
 
 /*
