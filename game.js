@@ -121,6 +121,7 @@ class Game {
 				}
 			}
 
+			info += "of " + this.players[player].name;
 			info = info + "is/are " + col;
 			this.numInfoTokens--;
 			if (this.deck.length < 1) {
@@ -144,7 +145,8 @@ class Game {
 			}
 
 			this.numInfoTokens--;
-			info = info + "is/are " + number;
+			info += "of " + this.players[player].name;
+			info = info + " is/are " + number;
 			if (this.deck.length < 1) {
 				this.overTurns++;
 			}
@@ -190,23 +192,23 @@ class Game {
 		switch(played.color) {
 		
 		case 'red':
-			this.evaluatePlayed(0,played,player,cardPos,this.deck,this.hands);
+			this.evaluatePlayed(0,played,player,cardPos);
 		    break;
 
 		case 'blue':
-			this.evaluatePlayed(1,played,player,cardPos,this.deck,this.hands);
+			this.evaluatePlayed(1,played,player,cardPos);
 			break;
 
 		case 'green':
-		  	this.evaluatePlayed(2,played,player,cardPos,this.deck,this.hands);
+		  	this.evaluatePlayed(2,played,player,cardPos);
 		   	break;
 
 		case 'yellow':
-		  	this.evaluatePlayed(3,played,player,cardPos,this.deck,this.hands);
+		  	this.evaluatePlayed(3,played,player,cardPos);
 		    break;
 
 		case 'purple':
-		  	this.evaluatePlayed(4,played,player,cardPos,this.deck,this.hands);
+		  	this.evaluatePlayed(4,played,player,cardPos);
 		    break;
 		} 
 		if (this.deck.length < 1) {
@@ -239,15 +241,14 @@ class Game {
 	Helper function for playCard which determines whether the move is valid or not
 	*/
 	
-	evaluatePlayed(tableNumber, played, player, cardPos, deck, hands) {
+	evaluatePlayed(tableNumber, played, player, cardPos) {
 		if(!this.table[tableNumber][0])
 		{
 	  		if(played.number == 1)
 	    	{
 				this.table[tableNumber][0] = played;
-				this.draw(player,cardPos,deck,hands);
-	    	}	
-	    
+				this.draw(player,cardPos,this.deck,this.hands);
+	    	}	    
 	    	else
 	    	{
 	    		this.discard(player,cardPos);
@@ -259,12 +260,12 @@ class Game {
 	  		if(this.table[tableNumber][played.number - 2] && !this.table[tableNumber][played.number - 1])
 	    	{
 	    		this.table[tableNumber][played.number-1] = played;
-	    		this.draw(player,cardPos,deck,hands);
+	    		this.draw(player,cardPos,this.deck,this.hands);
 	    	}
 	    	else
 	    	{
 	    		this.livesLeft--;
-	    		this.discard(player,cardPos,hands);
+	    		this.discard(player,cardPos,this.hands);
 	    	}
 	  	}
 	}

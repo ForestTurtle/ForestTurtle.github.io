@@ -195,7 +195,9 @@ function drawInfoCounter(numInfoTokens, ctx) {
 	ctx.lineTo(centerx, centery);
 	ctx.fill();
 
-	ctx.fillStyle = "#000000";
+	ctx.font = "16px Arial"
+	ctx.fillStyle = "black";	
+	ctx.fillText("Info Tokens",60,570);
 }
 
 /*
@@ -214,6 +216,10 @@ function drawLives(livesLeft, ctx) {
 	ctx.beginPath();
 	ctx.bezierCurveTo(900,480-(30*livesLeft),900,480-(30*livesLeft),900,500);
 	ctx.stroke();
+
+	ctx.font = "16px Arial"
+	ctx.fillStyle = "black";	
+	ctx.fillText("Lives",880,570);
 }
 
 //--------------------------------
