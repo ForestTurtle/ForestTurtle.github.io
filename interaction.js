@@ -142,7 +142,7 @@ function showAllyOptions(player, cardPos, hands) {
 	hitAreasToRemove++;
 }
 
-function initializeHitAreas() {
+function initializeHitAreas(game) {
 	//the discard pile
 	hitAreas.push(new HitArea(10, 10, 80, 80, function(game){		
 		dynamicDrawables.push(new DynamicDrawable(function (ctx){
@@ -155,11 +155,11 @@ function initializeHitAreas() {
 		}));
 		hitAreasToRemove++;
 	}));
-	initializeCardHitboxes();
+	initializeCardHitboxes(game);
 }
 
-function initializeCardHitboxes(){
-	for(let player = 0; player < 5; player++){ //Change iterator to add players? 
+function initializeCardHitboxes(game){
+	for(let player = 0; player < game.players.length; player++){ //Change iterator to add players? 
 		for(let card = 0; card < 5; card++){
 
 			let xPos = 0;
