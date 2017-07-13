@@ -4,8 +4,8 @@ let drawAreasToRemove = 0;
 /*
 Gives options for the player to give either discard or play their own cards.
 */
-/*
-showPlayerOptions(player,cardPos) {
+
+function showPlayerOptions(player,cardPos,deck, hands) {
 	let xPos = 0;
 	let yPos = 0;
 
@@ -37,33 +37,42 @@ showPlayerOptions(player,cardPos) {
 	}
 
 	xPos = xPos + (50 * cardPos);
-
 	let radius = 8;
 
-	ctx.fillStyle = "#FDFEFE";
-
-	ctx.beginPath();
-	ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
-	ctx.fill();
-
-	ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
-	ctx.fill();
-
-	
-	ctx.font = "16px Arial";
-	ctx.fillStyle = "black";	
-	ctx.fillText("X",xPos+5,yPos-14);
-	ctx.fillText("P",xPos+25,yPos-14);
-
-	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(){ //Hit area for discard card
-		discardCard(player,cardPos);
+	dynamicDrawables.push(new DynamicDrawable(function (ctx){
+		ctx.fillStyle = "black";
+		ctx.beginPath();
+		ctx.arc(xPos+10,yPos-20,radius,0,2*Math.PI);
+		ctx.fill();
+		ctx.fillStyle = "#FDFEFE";
+		ctx.font = "16px Arial";
+		ctx.fillText("X",xPos+5,yPos-14);
 	}));
+	drawAreasToRemove++;
 
-	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(){ //Hit area for play card
-		playCard(player,cardPos);
+	dynamicDrawables.push(new DynamicDrawable(function (ctx){
+		ctx.fillStyle = "black";	
+		ctx.beginPath();
+		ctx.arc(xPos+30,yPos-20,radius,0,2*Math.PI);
+		ctx.fill();
+		ctx.fillStyle = "#FDFEFE";
+		ctx.font = "16px Arial";
+		ctx.fillText("P",xPos+25,yPos-14);
 	}));
+	drawAreasToRemove++;
+
+	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
+		game.discard(player,cardPos,deck,hands); 
+	}));
+	hitAreasToRemove++;
+
+	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
+		game.playCard(player, cardPos,deck,hands); 
+	}));
+	hitAreasToRemove++;
 }
-*/
+
+
 /*
 Gives options for the player to give information on another player's card.
 */
@@ -184,7 +193,8 @@ function initializeCardHitboxes(){
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
-				showAllyOptions(player, card, game.hands);
+				showAllyOptions(player,card,game.hands);
+				//showPlayerOptions(player, card, game.deck,game.hands);
 			}));
 		}
 	}

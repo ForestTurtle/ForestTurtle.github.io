@@ -3,7 +3,7 @@ class Game {
 	constructor(){
 		this.players = [];
 		this.currentPlayer = 0;
-		this.numInfoTokens = 8;
+		this.numInfoTokens = 4;
 		this.livesLeft = 3;
 
 		this.deck = [];
@@ -127,7 +127,7 @@ class Game {
 
 	//player and card being the player number and the order of the card in his hand
 	//returns false when at full info tokens
-	discard(player, cardPos) {
+	discard(player, cardPos,hands) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
 			return false;
@@ -143,35 +143,36 @@ class Game {
 	/*
 	Plays a card from one's hand to the board.
 	*/
-	playCard(player, cardPos) {
+	playCard(player, cardPos,deck,hands) {
 		let played = this.hands[player][cardPos];
 	  
 		switch(played.color) {
 		
 		case 'red':
-			evaluatePlayed(0,played,player,cardPos);
+			this.evaluatePlayed(0,played,player,cardPos,deck,hands);
 		    break;
 
 		case 'blue':
-			evaluatePlayed(1,played,player,cardPos);
+			this.evaluatePlayed(1,played,player,cardPos,deck,hands);
 			break;
 
 		case 'green':
-		  	evaluatePlayed(2,played,player,cardPos);
+		  	this.evaluatePlayed(2,played,player,cardPos,deck,hands);
 		   	break;
 
 		case 'yellow':
-		  	evaluatePlayed(3,played,player,cardPos);
+		  	this.evaluatePlayed(3,played,player,cardPos,deck,hands);
 		    break;
 
 		case 'purple':
-		  	evaluatePlayed(4,played,player,cardPos);
+		  	this.evaluatePlayed(4,played,player,cardPos,deck,hands);
 		    break;
 		} 
 	}
 
-	draw(player, cardPos) {
-		let card = deck.pop();
+	draw(player, cardPos, deck, hands) {
+		let card = this.deck.pop();
+		//alert(card.color);
 		if (card == 'undefined') {
 			//todo: Game over condition triggered
 		}
@@ -192,30 +193,31 @@ class Game {
 	Helper function for playCard which determines whether the move is valid or not
 	*/
 	
-	evaluatePlayed(tableNumber, played, player, cardPos) {
-		if(!table[tableNumber][0])
+	evaluatePlayed(tableNumber, played, player, cardPos, deck, hands) {
+		if(!this.table[tableNumber][0])
 		{
 	  		if(played.number == 1)
 	    	{
-				table[tableNumber][0] = played;
-				draw(player,cardPos);
+	    		alert("asdf");
+				this.table[tableNumber][0] = played;
+				this.draw(player,cardPos,deck,hands);
 	    	}	
 	    
 	    	else
 	    	{
-	    		livesLeft--;
+	    		this.livesLeft--;
 			}
 	  	}
 		else
 		{
-	  		if(table[tableNumber][played.number - 2] && !table[tableNumber][played.number - 1])
+	  		if(this.table[tableNumber][played.number - 2] && !this.table[tableNumber][played.number - 1])
 	    	{
-	    		table[tableNumber][played.number-1] = played;
-	    		this.draw(player,cardPos);
+	    		this.table[tableNumber][played.number-1] = played;
+	    		this.draw(player,cardPos,deck,hands);
 	    	}
 	    	else
 	    	{
-	    		livesLeft--;
+	    		this.livesLeft--;
 	    	}
 	  	}
 	}
