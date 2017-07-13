@@ -119,7 +119,7 @@ function drawTable(table, ctx) {
 		for(let j = 0; j < 5; j++){
 			if(typeof table[i][j] != 'undefined')
 			{
-				drawCard(table[i][j].number,table[i][j].color,375 + (50*i),200,0.4)
+				drawCard(table[i][j].number,table[i][j].color,375 + (50*i),200,0.4,ctx);
 			}
 		}
 	}

@@ -193,8 +193,8 @@ function initializeCardHitboxes(){
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
-				showAllyOptions(player,card,game.hands);
-				//showPlayerOptions(player, card, game.deck,game.hands);
+				//showAllyOptions(player,card,game.hands);
+				showPlayerOptions(player, card, game.deck,game.hands);
 			}));
 		}
 	}
