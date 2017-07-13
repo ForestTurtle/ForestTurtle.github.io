@@ -26,7 +26,6 @@
 					images[i].src = colors[i]+"Card.jpg";
 					images[i].onload = function(){
 						loadedResources++;
-						console.log(loadedResources);
 						if(loadedResources > 4){
 							startGame();
 						}
@@ -46,6 +45,8 @@
 
 				canvasRect = canv.getBoundingClientRect();
 			    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
+			    console.log("curr player" + game.currentPlayer);
+			    console.log(game.players);
 		    	render(ctx, game);
 		    	cpuTurns(ctx, game);
 		    });
@@ -57,7 +58,7 @@
 			let move = Math.floor(Math.random() * 2)+2;
 			let targetPlayer = Math.floor(Math.random() * game.players.length);
 			let targetCard = Math.floor(Math.random() * 5);
-			while(!gane.hands[targetPlayer][targetCard]){
+			while(!game.hands[targetPlayer][targetCard]){
 				targetPlayer = Math.floor(Math.random() * game.players.length);
 				targetCard = Math.floor(Math.random() * 5);
 			}
@@ -67,7 +68,7 @@
 					break;
 				case 1:
 					//can return false, but is fine because current player isn't incremented
-					game.discard(game.currentPlayer, targetCard);
+					game.discardForInfo(game.currentPlayer, targetCard);
 					break;
 				case 2:
 					while (game.currentPlayer == targetPlayer){
@@ -100,7 +101,6 @@
 	<div id = 'startPrompt'>
 		<span>Enter number of players: </span>
 		<select id = 'playerSelector'>
-			<option>1</option>
 			<option>2</option>
 			<option>3</option>
 			<option>4</option>

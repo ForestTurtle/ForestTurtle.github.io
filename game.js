@@ -1,7 +1,7 @@
 class Game {
 
 	constructor(numPlayers){
-		this.players = new Array(numPlayers);
+		this.players = new Array(Number(numPlayers));
 		this.currentPlayer = 0;
 		this.numInfoTokens = 4;
 		this.livesLeft = 3;
@@ -111,17 +111,18 @@ class Game {
 		let col = this.hands[player][cardPos].color;
 		let info = "";
 		for (let i = 0 ; i < 5; i++) {
-			if(hands[player][i].color == col)
+			if(this.hands[player][i].color == col)
 			{
 				info = info + "card " + (i+1) + "  "; 
 			}
 		}
 
-		info = info + "is/are " + color;
+		info = info + "is/are " + col;
 		this.numInfoTokens--;
 		if (this.deck.length < 1) {
 			this.overTurns++;
 		}
+		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
 		alert(info);
 	}
 
@@ -140,6 +141,7 @@ class Game {
 		if (this.deck.length < 1) {
 			this.overTurns++;
 		}
+		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
 		alert(info);
 	}
 
@@ -155,6 +157,7 @@ class Game {
 			if (this.deck.length < 1) {
 				this.overTurns++;
 			}
+			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
 			return true;
 		} 
 	} 
@@ -199,6 +202,7 @@ class Game {
 		if (this.deck.length < 1) {
 			this.overTurns++;
 		}
+		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
 	}
 
 	draw(player, cardPos, deck, hands) {
