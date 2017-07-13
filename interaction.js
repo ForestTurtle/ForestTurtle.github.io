@@ -132,12 +132,12 @@ function showAllyOptions(player, cardPos, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		return game.giveInfoColor(hands[player][cardPos].color, player, cardPos, hands); 
+	game.giveInfoColor(player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-		return game.giveInfoNumber(hands[player][cardPos].number, player, cardPos, hands); 
+	game.giveInfoNumber(player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 }
@@ -193,8 +193,15 @@ function initializeCardHitboxes(game){
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
-				//showAllyOptions(player,card,game.hands);
-				showPlayerOptions(player, card, game.deck,game.hands);
+				if(player == 0)
+				{
+					showPlayerOptions(player, card, game.deck,game.hands);
+				}
+				else
+				{
+					showAllyOptions(player,card,game.hands);
+				}
+				
 			}));
 		}
 	}
