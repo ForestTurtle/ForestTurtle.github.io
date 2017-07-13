@@ -145,13 +145,12 @@ class Game {
 
 	//player and card being the player number and the order of the card in his hand
 	//returns false when at full info tokens
-	discard(player, cardPos,hands) {
+	discardForInfo(player, cardPos,hands) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
 			return false;
 		} else {
-	    	this.discardedCards.push(this.hands[player][cardPos]);
-			this.draw(player,cardPos, hands);
+			this.discard(player,cardPos,hands);
 			this.numInfoTokens++;
 			if (this.deck.length < 1) {
 				this.overTurns++;
@@ -159,6 +158,14 @@ class Game {
 			return true;
 		} 
 	} 
+
+	discard(player, cardPos,hands)
+	{
+		this.discardedCards.push(this.hands[player][cardPos]);
+		this.draw(player,cardPos, hands);
+
+	}
+
 
 
 	/*
@@ -222,13 +229,13 @@ class Game {
 		{
 	  		if(played.number == 1)
 	    	{
-	    		alert("asdf");
 				this.table[tableNumber][0] = played;
 				this.draw(player,cardPos,deck,hands);
 	    	}	
 	    
 	    	else
 	    	{
+	    		this.discard(player,cardPos,hands);
 	    		this.livesLeft--;
 			}
 	  	}
@@ -242,6 +249,7 @@ class Game {
 	    	else
 	    	{
 	    		this.livesLeft--;
+	    		this.discard(player,cardPos,hands);
 	    	}
 	  	}
 	}
