@@ -76,7 +76,7 @@ class Game {
 	*/
 	initializeHands(hands, deck) {
 		for (let i = 0; i < 5; i++) {
-			for (let j = 0; j < hands.length; j++) {
+			for (let j = 0; j < this.players.length; j++) {
 				hands[j][i] = deck.pop();
 			}
 		}

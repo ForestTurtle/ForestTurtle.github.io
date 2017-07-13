@@ -11,7 +11,7 @@ function render(ctx, game) {
 	drawUI(ctx);
 	drawTable(game.table, ctx);
 	//draw player hands
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < game.players.length; i++) {
 		drawHand(i, ctx, game.hands);
 	}
 
