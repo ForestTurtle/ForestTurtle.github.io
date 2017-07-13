@@ -13,7 +13,6 @@ class Game {
 		this.deck = [];
 		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
 		this.table = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)]; //red | blue | green | yellow | purple
-		this.discardedCards = [new Card('red',1), new Card('blue',5)];
 
 		this.initializeDeck(this.deck);
 		this.initializeHands(this.hands, this.deck);
@@ -110,7 +109,7 @@ class Game {
 
 
 	/*the player to give info to*/
-	giveInfoColor(player, cardPos,hands) {
+	giveInfoColor(player, cardPos) {
 		if (this.numInfoTokens > 0) {	
 			let col = this.hands[player][cardPos].color;
 			let info = "";
@@ -132,7 +131,7 @@ class Game {
 		}
 	}
 
-	giveInfoNumber(player, cardPos,hands) {
+	giveInfoNumber(player, cardPos) {
 		if (this.numInfoTokens > 0) {	
 			let number = this.hands[player][cardPos].number;
 			let info = "";
@@ -155,25 +154,26 @@ class Game {
 
 	//player and card being the player number and the order of the card in his hand
 	//returns false when at full info tokens
-	discardForInfo(player, cardPos,hands) {
+	discardForInfo(player, cardPos) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
 			//return false;
 		} else {
-			this.discard(player,cardPos,hands);
+			let card = this.hands[player][cardPos].color +" "+ this.hands[player][cardPos].number;
+			this.discard(player,cardPos);
 			this.numInfoTokens++;
 			if (this.deck.length < 1) {
 				this.overTurns++;
 			}
 			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-			return ("discarded " + cardPos + " from player " + player);
+			return ("discarded " + card + " from " + this.players[player].name);
 		} 
 	} 
 
-	discard(player, cardPos,hands)
+	discard(player, cardPos)
 	{
 		this.discardedCards.push(this.hands[player][cardPos]);
-		this.draw(player,cardPos, hands);
+		this.draw(player,cardPos, this.hands);
 
 	}
 
@@ -182,36 +182,37 @@ class Game {
 	/*
 	Plays a card from one's hand to the board.
 	*/
-	playCard(player, cardPos, deck, hands) {
+	playCard(player, cardPos) {
 		let played = this.hands[player][cardPos];
+		let card = this.hands[player][cardPos].color +" "+ this.hands[player][cardPos].number;
 	  
 		switch(played.color) {
 		
 		case 'red':
-			this.evaluatePlayed(0,played,player,cardPos,deck,hands);
+			this.evaluatePlayed(0,played,player,cardPos,this.deck,this.hands);
 		    break;
 
 		case 'blue':
-			this.evaluatePlayed(1,played,player,cardPos,deck,hands);
+			this.evaluatePlayed(1,played,player,cardPos,this.deck,this.hands);
 			break;
 
 		case 'green':
-		  	this.evaluatePlayed(2,played,player,cardPos,deck,hands);
+		  	this.evaluatePlayed(2,played,player,cardPos,this.deck,this.hands);
 		   	break;
 
 		case 'yellow':
-		  	this.evaluatePlayed(3,played,player,cardPos,deck,hands);
+		  	this.evaluatePlayed(3,played,player,cardPos,this.deck,this.hands);
 		    break;
 
 		case 'purple':
-		  	this.evaluatePlayed(4,played,player,cardPos,deck,hands);
+		  	this.evaluatePlayed(4,played,player,cardPos,this.deck,this.hands);
 		    break;
 		} 
 		if (this.deck.length < 1) {
 			this.overTurns++;
 		}
 		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-		return ("Played " + cardPos + " from player " + player);
+		return ("played " + card + " from " + this.players[player].name);
 	}
 
 	draw(player, cardPos, deck, hands) {
@@ -248,7 +249,7 @@ class Game {
 	    
 	    	else
 	    	{
-	    		this.discard(player,cardPos,hands);
+	    		this.discard(player,cardPos);
 	    		this.livesLeft--;
 			}
 	  	}

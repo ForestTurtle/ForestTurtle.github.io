@@ -5,7 +5,7 @@ let drawAreasToRemove = 0;
 Gives options for the player to give either discard or play their own cards.
 */
 
-function showPlayerOptions(player,cardPos,deck, hands) {
+function showPlayerOptions(player,cardPos) {
 	let xPos = 0;
 	let yPos = 0;
 
@@ -62,12 +62,12 @@ function showPlayerOptions(player,cardPos,deck, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		return game.discardForInfo(player,cardPos,deck,hands); 
+		return game.discardForInfo(player,cardPos); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-		return game.playCard(player, cardPos,deck,hands); 
+		return game.playCard(player, cardPos); 
 	}));
 	hitAreasToRemove++;
 }
@@ -76,7 +76,7 @@ function showPlayerOptions(player,cardPos,deck, hands) {
 /*
 Gives options for the player to give information on another player's card.
 */
-function showAllyOptions(player, cardPos, hands) {
+function showAllyOptions(player, cardPos) {
 	let xPos = 0;
 	let yPos = 0;
 	switch(player){
@@ -132,12 +132,12 @@ function showAllyOptions(player, cardPos, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		return game.giveInfoColor(player, cardPos, hands); 
+		return game.giveInfoColor(player, cardPos); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-		return game.giveInfoNumber(player, cardPos, hands); 
+		return game.giveInfoNumber(player, cardPos); 
 	}));
 	hitAreasToRemove++;
 }
@@ -195,11 +195,11 @@ function initializeCardHitboxes(game){
 			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
 				if(player == 0)
 				{
-					showPlayerOptions(player, card, game.deck,game.hands);
+					showPlayerOptions(player, card);
 				}
 				else
 				{
-					showAllyOptions(player,card,game.hands);
+					showAllyOptions(player, card);
 				}
 				
 			}));
