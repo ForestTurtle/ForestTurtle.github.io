@@ -98,6 +98,14 @@
 </head>
 <body>
 <center>
+	<div class="row"> 
+	<div class="col-md-3">
+
+			<span>Gane Log</span>
+			<ul id='gameLog' style="border-style: solid; border-width: 1px; overflow-y: scroll; height: 500px; margin-left: 10px;"></ul>
+		<button type="button" class="btn btn-default" id="back">back</button>
+	</div>
+	<div class="col-md-8">
 	<div id = 'startPrompt'>
 		<span>Enter number of players: </span>
 		<select id = 'playerSelector'>
@@ -111,7 +119,8 @@
 	<div id = 'gameArea1'>
 		<canvas id="drawArea" style="border-style: solid" width="1000" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
 		<hr>
-		<button type="button" class="btn btn-default" id="back">back</button>
+	</div>
+	</div>
 	</div>
 </center>
 </body>
