@@ -1,7 +1,7 @@
 class Game {
 
-	constructor(){
-		this.players = [];
+	constructor(numPlayers){
+		this.players = new Array(numPlayers);
 		this.currentPlayer = 0;
 		this.numInfoTokens = 4;
 		this.livesLeft = 3;
@@ -95,8 +95,8 @@ class Game {
 
 
 	/*the player to give info to*/
-	giveInfoColor(color, player, cardPos, hands) {
-		let col = hands[player][cardPos].color;
+	giveInfoColor(player, cardPos) {
+		let col = this.hands[player][cardPos].color;
 		let info = "";
 		for (let i = 0 ; i < 5; i++) {
 			if(hands[player][i].color == col)
@@ -110,11 +110,11 @@ class Game {
 		alert(info);
 	}
 
-	giveInfoNumber(number, player, cardPos, hands) {
-		let num = hands[player][cardPos].number;
+	giveInfoNumber(player, cardPos) {
+		let number = this.hands[player][cardPos].number;
 		let info = "";
 		for (let i = 0 ; i < 5; i++) {
-			if(hands[player][i].number == number)
+			if(this.hands[player][i].number == number)
 			{
 				info = info + "card " + (i+1) + "  "; 
 			}
