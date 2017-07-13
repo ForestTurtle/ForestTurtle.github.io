@@ -132,12 +132,12 @@ function showAllyOptions(player, cardPos, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-	game.giveInfoColor(player, cardPos, hands); 
+		return game.giveInfoColor(player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-	game.giveInfoNumber(player, cardPos, hands); 
+		return game.giveInfoNumber(player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 }

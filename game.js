@@ -127,6 +127,7 @@ class Game {
 				this.overTurns++;
 			}
 			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
+			// alert(info);
 			return(info);
 		}
 	}
