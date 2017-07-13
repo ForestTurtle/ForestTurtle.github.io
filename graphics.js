@@ -1,5 +1,7 @@
 //-----------------------------------------------
 let dynamicDrawables = [];
+let images = [];
+
 /*
 renders the entire board
 */
@@ -64,13 +66,13 @@ function drawHand(player, ctx, hands) {
 
 function drawCard(num, color, x, y, scale, ctx) {
 
-		let images = [];
-		let colors = ['red','blue','green','yellow','purple'];
+		// let images = [];
+		// let colors = ['red','blue','green','yellow','purple'];
 
-		for (i = 0; i < colors.length; i++) {
-			images[i] = new Image();
-			images[i].src = colors[i]+"Card.jpg";
-		}
+		// for (i = 0; i < colors.length; i++) {
+		// 	images[i] = new Image();
+		// 	images[i].src = colors[i]+"Card.jpg";
+		// }
 		
 		let img = images[0];
 		switch(color) {
