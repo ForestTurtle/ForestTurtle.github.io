@@ -5,6 +5,7 @@ class Game {
 		this.currentPlayer = 0;
 		this.numInfoTokens = 4;
 		this.livesLeft = 3;
+		this.overTurns = 0; 
 
 		this.deck = [];
 		this.hands = [new Array(5), new Array(5), new Array(5), new Array(5), new Array(5)];
@@ -83,15 +84,27 @@ class Game {
 
 	//check to see if game ended
 	isGameOver() {
-		return false;
+		//person who draws last card gets one more turn
+		//increment overTurns when increments currentPlayer and deck is empty
+		return (livesLeft < 1 || (this.deck.length < 1 && this.overTurns > this.players.length));
 	}
 
 	//calculates and returns the current score
 	getScore() {
-		return 0;
+		let score = 0;
+		for(let color = 0; color < 5; color++){
+			for(let number = 0; number < 5; number++){
+				if(this.table[color][number])
+				{
+					score++;
+				}
+			}
+		}
+		return score;
 	}
 
 	//-----------------------------------------------
+
 
 	/*the player to give info to*/
 	giveInfoColor(player, cardPos) {
@@ -106,8 +119,10 @@ class Game {
 
 		info = info + "is/are " + color;
 		this.numInfoTokens--;
+		if (this.deck.length < 1) {
+			this.overTurns++;
+		}
 		alert(info);
-
 	}
 
 	giveInfoNumber(player, cardPos) {
@@ -122,28 +137,28 @@ class Game {
 
 		this.numInfoTokens--;
 		info = info + "is/are " + number;
+		if (this.deck.length < 1) {
+			this.overTurns++;
+		}
 		alert(info);
-
 	}
 
 	//player and card being the player number and the order of the card in his hand
 	//returns false when at full info tokens
-	discardForInfo(player, cardPos,hands) {
+	discard(player, cardPos,hands) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
 			return false;
 		} else {
-			this.discard(player,cardPos,hands);
+	    	this.discardedCards.push(this.hands[player][cardPos]);
+			this.draw(player,cardPos, hands);
 			this.numInfoTokens++;
+			if (this.deck.length < 1) {
+				this.overTurns++;
+			}
 			return true;
 		} 
-
 	} 
-
-	discard(player, cardPos,hands) {
-			this.discardedCards.push(this.hands[player][cardPos]);
-			this.draw(player,cardPos, hands);
-		}	
 
 
 	/*
@@ -174,7 +189,9 @@ class Game {
 		  	this.evaluatePlayed(4,played,player,cardPos,deck,hands);
 		    break;
 		} 
-
+		if (this.deck.length < 1) {
+			this.overTurns++;
+		}
 	}
 
 	draw(player, cardPos, deck, hands) {
@@ -184,8 +201,6 @@ class Game {
 			//todo: Game over condition triggered
 		}
 		this.hands[player][cardPos] = card;
-		//this.currentPlayer = (this.currentPlayer + 1) % (this.players.length+1);
-		//alert(currentPlayer);
 	}
 	
 	//Rearranges the array in order to move cards around in one's hand 
@@ -207,13 +222,13 @@ class Game {
 		{
 	  		if(played.number == 1)
 	    	{
+	    		alert("asdf");
 				this.table[tableNumber][0] = played;
 				this.draw(player,cardPos,deck,hands);
 	    	}	
 	    
 	    	else
 	    	{
-	    		this.discard(player,cardPos,hands);
 	    		this.livesLeft--;
 			}
 	  	}
@@ -226,7 +241,6 @@ class Game {
 	    	}
 	    	else
 	    	{
-	    		discard(player,cardPos,hands);
 	    		this.livesLeft--;
 	    	}
 	  	}

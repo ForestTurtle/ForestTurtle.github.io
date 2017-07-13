@@ -66,6 +66,7 @@
 					game.playCard(game.currentPlayer, targetCard);
 					break;
 				case 1:
+					//can return false, but is fine because current player isn't incremented
 					game.discard(game.currentPlayer, targetCard);
 					break;
 				case 2:
