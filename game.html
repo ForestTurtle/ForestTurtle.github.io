@@ -47,7 +47,7 @@
 				canvasRect = canv.getBoundingClientRect();
 			    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
 		    	render(ctx, game);
-		    	cpuTurns(game);
+		    	cpuTurns(ctx, game);
 		    });
 			initializeHitAreas();
 		    render(ctx, game);
@@ -82,11 +82,11 @@
 					break;
 			}
 		}
-		function cpuTurns(game) {
+		function cpuTurns(ctx, game) {
 			if (game.currentPlayer > 0){
 				aiMove(game);
-				render();
-				cpuTurns();
+				render(ctx, game);
+				cpuTurns(games);
 			}
 		}
 	</script>
