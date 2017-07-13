@@ -17,6 +17,17 @@
 			$("#start").click(function(){
 				$("#gameArea1").show();
 				let numPlayers = $("#playerSelector").val();
+
+				//Preloads images | move to different file?
+				/*
+				let images = [];
+				let colors = ['red','blue','green','yellow','purple'];
+
+				for (i = 0; i < colors.length; i++) {
+					images[i] = new Image();
+					images[i].src = colors[i]+"Card.jpg";
+				}*/
+ 
 				let canv = document.getElementById("drawArea");
 				let ctx = canv.getContext("2d");
 				let game = new Game(numPlayers);

@@ -63,14 +63,37 @@ function drawHand(player, ctx, hands) {
 }
 
 function drawCard(num, color, x, y, scale, ctx) {
-	let img = new Image();
-	img.src = color+"Card.jpg"
-	img.onload = function () {
+
+		let images = [];
+		let colors = ['red','blue','green','yellow','purple'];
+
+		for (i = 0; i < colors.length; i++) {
+			images[i] = new Image();
+			images[i].src = colors[i]+"Card.jpg";
+		}
+		
+		let img = images[0];
+		switch(color) {
+			case 'blue':
+				img = images[1];
+				break;
+			case 'green':
+				img = images[2];
+				break;
+			case 'yellow':
+				img = images[3];
+				break;
+			case 'purple':
+				img = images[4];
+				break;
+		}
+		
+
 		ctx.drawImage(img, x, y, 100*scale, 150*scale);
 		ctx.font = 70*scale+'px serif';
 		ctx.fillStyle = 'black';
 		ctx.fillText(num, x+33*scale, y+110*scale);
-	}
+	//}
 }
 
 
