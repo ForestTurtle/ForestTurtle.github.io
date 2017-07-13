@@ -46,7 +46,7 @@
 
 				canvasRect = canv.getBoundingClientRect();
 			    let action = checkForHit(x-canvasRect.left, y-canvasRect.top);
-			    logMessage(action(game));
+			    logMessage("user" + game.currentPlayer + ": " + action(game));
 		    	render(ctx, game);
 		    	cpuTurns(ctx, game);
 		    });
@@ -55,7 +55,7 @@
 		}
 		//the ai. calls one of the 4 funtions in game
 		function aiMove(game) {
-			let move = Math.floor(Math.random() * 2)+2;
+			let move = Math.floor(Math.random() * 4);
 			let targetPlayer = Math.floor(Math.random() * game.players.length);
 			let targetCard = Math.floor(Math.random() * 5);
 			while(!game.hands[targetPlayer][targetCard]){
@@ -64,23 +64,23 @@
 			}
 			switch(move){
 				case 0:
-					logMessage(game.playCard(game.currentPlayer, targetCard));
+					logMessage("user" + game.currentPlayer + ": " + game.playCard(game.currentPlayer, targetCard));
 					break;
 				case 1:
 					//can return false, but is fine because current player isn't incremented
-					logMessage(game.discardForInfo(game.currentPlayer, targetCard));
+					logMessage("user" + game.currentPlayer + ": " + game.discardForInfo(game.currentPlayer, targetCard));
 					break;
 				case 2:
 					while (game.currentPlayer == targetPlayer){
 						targetPlayer = Math.floor(Math.random() * game.players.length);
 					}
-					logMessage(game.giveInfoColor(targetPlayer, targetCard));
+					logMessage("user" + game.currentPlayer + ": " + game.giveInfoColor(targetPlayer, targetCard));
 					break;
 				case 3:
 					while (game.currentPlayer == targetPlayer){
 						targetPlayer = Math.floor(Math.random() * game.players.length);
 					}
-					logMessage(game.giveInfoNumber(targetPlayer, targetCard));
+					logMessage("user" + game.currentPlayer + ": " + game.giveInfoNumber(targetPlayer, targetCard));
 					break;
 			}
 		}
@@ -92,7 +92,7 @@
 			}
 		}
 		function logMessage(msg) {
-			if (msg){
+			if (typeof(msg)){
 	  			$('#gameLog').append($('<li>').text(msg));
 	  			$('#gameLog').scrollTop($('#gameLog')[0].scrollHeight);
 			}
@@ -107,7 +107,7 @@
 	<div class="row"> 
 	<div class="col-md-3">
 
-			<span>Gane Log</span>
+			<span>Game Log</span>
 			<ul id='gameLog' style="border-style: solid; border-width: 1px; overflow-y: scroll; height: 500px; margin-left: 10px;"></ul>
 		<button type="button" class="btn btn-default" id="back">back</button>
 	</div>

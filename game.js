@@ -111,41 +111,45 @@ class Game {
 
 	/*the player to give info to*/
 	giveInfoColor(player, cardPos,hands) {
-		let col = this.hands[player][cardPos].color;
-		let info = "";
-		for (let i = 0 ; i < 5; i++) {
-			if(this.hands[player][i].color == col)
-			{
-				info = info + "card " + (i+1) + "  "; 
+		if (this.numInfoTokens > 0) {	
+			let col = this.hands[player][cardPos].color;
+			let info = "";
+			for (let i = 0 ; i < 5; i++) {
+				if(this.hands[player][i].color == col)
+				{
+					info = info + "card " + (i+1) + "  "; 
+				}
 			}
-		}
 
-		info = info + "is/are " + col;
-		this.numInfoTokens--;
-		if (this.deck.length < 1) {
-			this.overTurns++;
+			info = info + "is/are " + col;
+			this.numInfoTokens--;
+			if (this.deck.length < 1) {
+				this.overTurns++;
+			}
+			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
+			return(info);
 		}
-		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-		return(info);
 	}
 
 	giveInfoNumber(player, cardPos,hands) {
-		let number = this.hands[player][cardPos].number;
-		let info = "";
-		for (let i = 0 ; i < 5; i++) {
-			if(this.hands[player][i].number == number)
-			{
-				info = info + "card " + (i+1) + "  "; 
+		if (this.numInfoTokens > 0) {	
+			let number = this.hands[player][cardPos].number;
+			let info = "";
+			for (let i = 0 ; i < 5; i++) {
+				if(this.hands[player][i].number == number)
+				{
+					info = info + "card " + (i+1) + "  "; 
+				}
 			}
-		}
 
-		this.numInfoTokens--;
-		info = info + "is/are " + number;
-		if (this.deck.length < 1) {
-			this.overTurns++;
+			this.numInfoTokens--;
+			info = info + "is/are " + number;
+			if (this.deck.length < 1) {
+				this.overTurns++;
+			}
+			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
+			return(info);
 		}
-		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-		return(info);
 	}
 
 	//player and card being the player number and the order of the card in his hand
