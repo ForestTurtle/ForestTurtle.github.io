@@ -107,7 +107,7 @@ class Game {
 
 
 	/*the player to give info to*/
-	giveInfoColor(player, cardPos) {
+	giveInfoColor(player, cardPos,hands) {
 		let col = this.hands[player][cardPos].color;
 		let info = "";
 		for (let i = 0 ; i < 5; i++) {
@@ -126,7 +126,7 @@ class Game {
 		alert(info);
 	}
 
-	giveInfoNumber(player, cardPos) {
+	giveInfoNumber(player, cardPos,hands) {
 		let number = this.hands[player][cardPos].number;
 		let info = "";
 		for (let i = 0 ; i < 5; i++) {
