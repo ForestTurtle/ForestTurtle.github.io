@@ -1,7 +1,10 @@
 class Game {
 
 	constructor(numPlayers){
-		this.players = new Array(Number(numPlayers));
+		this.players = [new User("Player")];
+		for (let i = 1; i < numPlayers; i++) {
+			this.players.push(new User("cpu" + i));
+		}
 		this.currentPlayer = 0;
 		this.numInfoTokens = 4;
 		this.livesLeft = 3;
@@ -123,7 +126,7 @@ class Game {
 			this.overTurns++;
 		}
 		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-		alert(info);
+		return(info);
 	}
 
 	giveInfoNumber(player, cardPos) {
@@ -142,7 +145,7 @@ class Game {
 			this.overTurns++;
 		}
 		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-		alert(info);
+		return(info);
 	}
 
 	//player and card being the player number and the order of the card in his hand
@@ -150,7 +153,7 @@ class Game {
 	discardForInfo(player, cardPos,hands) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
-			return false;
+			//return false;
 		} else {
 			this.discard(player,cardPos,hands);
 			this.numInfoTokens++;
@@ -158,7 +161,7 @@ class Game {
 				this.overTurns++;
 			}
 			this.currentPlayer = (this.currentPlayer+1)%this.players.length;
-			return true;
+			return ("discarded " + cardPos + " from player " + player);
 		} 
 	} 
 
@@ -174,7 +177,7 @@ class Game {
 	/*
 	Plays a card from one's hand to the board.
 	*/
-	playCard(player, cardPos,deck,hands) {
+	playCard(player, cardPos, deck, hands) {
 		let played = this.hands[player][cardPos];
 	  
 		switch(played.color) {
@@ -203,6 +206,7 @@ class Game {
 			this.overTurns++;
 		}
 		this.currentPlayer = (this.currentPlayer+1)%this.players.length;
+		return ("Played " + cardPos + " from player " + player);
 	}
 
 	draw(player, cardPos, deck, hands) {

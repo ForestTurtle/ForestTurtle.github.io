@@ -20,3 +20,9 @@ class DynamicDrawable {
 		this.draw = draw;
 	}
 }
+
+class User {
+	constructor(name){
+		this.name = name;
+	}
+}

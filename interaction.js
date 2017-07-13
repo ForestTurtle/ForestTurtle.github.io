@@ -62,12 +62,12 @@ function showPlayerOptions(player,cardPos,deck, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		game.discardForInfo(player,cardPos,deck,hands); 
+		return game.discardForInfo(player,cardPos,deck,hands); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-		game.playCard(player, cardPos,deck,hands); 
+		return game.playCard(player, cardPos,deck,hands); 
 	}));
 	hitAreasToRemove++;
 }
@@ -132,12 +132,12 @@ function showAllyOptions(player, cardPos, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		game.giveInfoColor(hands[player][cardPos].color, player, cardPos, hands); 
+		return game.giveInfoColor(hands[player][cardPos].color, player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos+20,yPos-30,20,20, function(game){ //Hit area for give info on number
-		game.giveInfoNumber(hands[player][cardPos].number, player, cardPos, hands); 
+		return game.giveInfoNumber(hands[player][cardPos].number, player, cardPos, hands); 
 	}));
 	hitAreasToRemove++;
 }
@@ -202,7 +202,7 @@ function initializeCardHitboxes(game){
 /*
 loop through the hit areas are does the apprpriate action. The control
 */
-function checkForHit(x, y, game) {
+function checkForHit(x, y) {
 	let clickAction = function (){};
 
 	hitAreas.forEach(function(item, index) {
@@ -228,7 +228,7 @@ function checkForHit(x, y, game) {
 		dynamicDrawables.pop();
 		drawAreasToRemove--;
 	}
-	clickAction(game);
+	return clickAction;
 }
 
 
