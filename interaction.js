@@ -62,7 +62,7 @@ function showPlayerOptions(player,cardPos,deck, hands) {
 	drawAreasToRemove++;
 
 	hitAreas.push(new HitArea(xPos,yPos-30,20,20, function(game){ //Hit area for give info on color
-		game.discard(player,cardPos,deck,hands); 
+		game.discardForInfo(player,cardPos,deck,hands); 
 	}));
 	hitAreasToRemove++;
 
