@@ -18,10 +18,7 @@
 				$("#gameArea1").show();
 				$("#startPrompt").hide();
 
-				//Preloads images | move to different file?
-				/*
-				let images = [];
-				*/
+				//Preloads images
 				let colors = ['red','blue','green','yellow','purple'];
 				let loadedResources = 0;
 				for (let i = 0; i < colors.length; i++) {
@@ -35,10 +32,7 @@
 						}
 					}
 				}
- 	
-
 			});
-
 		});
 		function startGame() {
 			let numPlayers = $("#playerSelector").val();
@@ -53,9 +47,47 @@
 				canvasRect = canv.getBoundingClientRect();
 			    checkForHit(x-canvasRect.left, y-canvasRect.top, game);
 		    	render(ctx, game);
+		    	cpuTurns(game);
 		    });
 			initializeHitAreas();
 		    render(ctx, game);
+		}
+		//the ai. calls one of the 4 funtions in game
+		function aiMove(game) {
+			let move = Math.floor(Math.random() * 2)+2;
+			let targetPlayer = Math.floor(Math.random() * game.players.length);
+			let targetCard = Math.floor(Math.random() * 5);
+			while(!gane.hands[targetPlayer][targetCard]){
+				targetPlayer = Math.floor(Math.random() * game.players.length);
+				targetCard = Math.floor(Math.random() * 5);
+			}
+			switch(move){
+				case 0:
+					game.playCard(game.currentPlayer, targetCard);
+					break;
+				case 1:
+					game.discard(game.currentPlayer, targetCard);
+					break;
+				case 2:
+					while (game.currentPlayer == targetPlayer){
+						targetPlayer = Math.floor(Math.random() * game.players.length);
+					}
+					game.giveInfoColor(targetPlayer, targetCard);
+					break;
+				case 3:
+					while (game.currentPlayer == targetPlayer){
+						targetPlayer = Math.floor(Math.random() * game.players.length);
+					}
+					game.giveInfoNumber(targetPlayer, targetCard);
+					break;
+			}
+		}
+		function cpuTurns(game) {
+			if (game.currentPlayer > 0){
+				aiMove(game);
+				render();
+				cpuTurns();
+			}
 		}
 	</script>
 	<title>Hanabi</title>
