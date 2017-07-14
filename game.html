@@ -83,6 +83,9 @@
 					logMessageWithUser(game.players[game.currentPlayer].name, game.giveInfoNumber(targetPlayer, targetCard));
 					break;
 			}
+			if(game.isGameOver()){
+				logMessage("Game has ended. Final score: " + game.getScore());
+			}
 		}
 		function cpuTurns(ctx, game) {
 			if (game.currentPlayer > 0){

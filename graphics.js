@@ -11,8 +11,8 @@ function render(ctx, game) {
 	drawUI(ctx);
 	drawTable(game.table, ctx);
 	//draw player hands
-	for (let i = 0; i < game.players.length; i++) {
-		drawHand(i, ctx, game.hands);
+	for (let player = 0; player < game.players.length; player++) {
+		drawHand(player, ctx, game.hands);
 	}
 
 	drawLives(game.livesLeft, ctx);
@@ -60,7 +60,9 @@ function drawHand(player, ctx, hands) {
 
 	//Center
 	for(let i = 0; i < 5; i++) {
-		drawCard(hands[player][i].number, hands[player][i].color, xPos + (50*i), yPos, 0.4, ctx);
+		if(hands[player][i]){
+			drawCard(hands[player][i].number, hands[player][i].color, xPos + (50*i), yPos, 0.4, ctx);		
+		}
 	}
 }
 

@@ -155,10 +155,10 @@ function initializeHitAreas(game) {
 		}));
 		hitAreasToRemove++;
 	}));
-	initializeCardHitboxes(game);
+	setCardHitboxes(game);
 }
 
-function initializeCardHitboxes(game){
+function setCardHitboxes(game){
 	for(let player = 0; player < game.players.length; player++){ //Change iterator to add players? 
 		for(let card = 0; card < 5; card++){
 
@@ -193,15 +193,13 @@ function initializeCardHitboxes(game){
 			}
 
 			hitAreas.push(new HitArea(xPos + (50*card),yPos,40,60, function(game){
-				if(player == 0)
-				{
-					showPlayerOptions(player, card);
+				if (game.hands[player][card]){
+					if(player == 0) {
+						showPlayerOptions(player, card);
+					} else {
+						showAllyOptions(player, card);
+					}
 				}
-				else
-				{
-					showAllyOptions(player, card);
-				}
-				
 			}));
 		}
 	}

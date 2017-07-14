@@ -81,7 +81,7 @@ class Game {
 	isGameOver() {
 		//person who draws last card gets one more turn
 		//increment overTurns when increments currentPlayer and deck is empty
-		return (livesLeft < 1 || (this.deck.length < 1 && this.overTurns > this.players.length));
+		return (this.livesLeft < 1 || (this.deck.length < 1 && this.overTurns > this.players.length));
 	}
 
 	//calculates and returns the current score
@@ -112,7 +112,7 @@ class Game {
 			}
 
 			info += "of " + this.players[player].name;
-			info = info + "is/are " + col;
+			info = info + " is/are " + col;
 			this.numInfoTokens--;
 			if (this.deck.length < 1) {
 				this.overTurns++;
@@ -145,8 +145,10 @@ class Game {
 		}
 	}
 
-	//player and card being the player number and the order of the card in his hand
-	//returns false when at full info tokens
+	/*
+	player and card being the player number and the order of the card in his hand
+	does nothing if at full info tokens
+	*/
 	discardForInfo(player, cardPos) {
 		if (this.numInfoTokens == 8) {
 			//Prevent player from doing action
@@ -164,7 +166,9 @@ class Game {
 	} 
 
 	/*
-	Plays a card from one's hand to the board.
+	Plays a card from one's hand to the board and draws a card.
+	If the card is valid, it gets added to the table
+	If the card is invalid, it gets dsicarded and a life is subtracted
 	*/
 	playCard(player, cardPos) {
 		let played = this.hands[player][cardPos];
@@ -199,7 +203,10 @@ class Game {
 		return ("played " + card + " from " + this.players[player].name);
 	}
 
-	draw(player, cardPos, deck, hands) {
+	/*
+	helper methods for moving a card from the deck to the hand. if the deck is empty, then does nothing
+	*/
+	draw(player, cardPos) {
 		let card = this.deck.pop();
 		//alert(card.color);
 		if (card == 'undefined') {
@@ -208,11 +215,16 @@ class Game {
 		this.hands[player][cardPos] = card;
 	}
 	
+	/*
+	helper method for moving a card to the discard pile. if the card doesn't exist, does nothing
+	*/
 	discard(player, cardPos)
 	{
-		this.discardedCards.push(this.hands[player][cardPos]);
-		this.draw(player,cardPos, this.hands);
-
+		if(this.hands[player][cardPos]){
+			this.discardedCards.push(this.hands[player][cardPos]);
+			delete this.hands[player][cardPos];
+			this.draw(player,cardPos);
+		}
 	}
 
 	/*
@@ -224,7 +236,7 @@ class Game {
 	  		if(played.number == 1)
 	    	{
 				this.table[tableNumber][0] = played;
-				this.draw(player,cardPos,this.deck,this.hands);
+				this.draw(player,cardPos);
 	    	}	    
 	    	else
 	    	{
@@ -237,12 +249,12 @@ class Game {
 	  		if(this.table[tableNumber][played.number - 2] && !this.table[tableNumber][played.number - 1])
 	    	{
 	    		this.table[tableNumber][played.number-1] = played;
-	    		this.draw(player,cardPos,this.deck,this.hands);
+	    		this.draw(player,cardPos);
 	    	}
 	    	else
 	    	{
 	    		this.livesLeft--;
-	    		this.discard(player,cardPos,this.hands);
+	    		this.discard(player,cardPos);
 	    	}
 	  	}
 	}
