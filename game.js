@@ -27,29 +27,21 @@ class Game {
 	shuffles deck
 	*/
 	initializeDeck(deck) {
-		this.createSuite("red", deck);
-		this.createSuite("purple", deck);
-		this.createSuite("blue", deck);
-		this.createSuite("green", deck);
-		this.createSuite("yellow", deck);
+		let cardColors = ["red", "purple", "blue", "green", "yellow"];
 
-		deck = this.shuffle(deck);
-	}
-
-	/*
-	adds a specific color to the deck
-	*/
-	createSuite(color, deck) {
-		for (let i = 1; i < 6; i++) {
-			let card = new Card(color,i);
-			deck.push(card);
-			if (i < 5) {
+		cardColors.forEach(function(color){
+			for (let i = 1; i < 6; i++) {
+				let card = new Card(color,i);
 				deck.push(card);
-				if (i == 1) {
+				if (i < 5) {
 					deck.push(card);
+					if (i == 1) {
+						deck.push(card);
+					}
 				}
 			}
-		}
+		});
+		deck = this.shuffle(deck);
 	}
 
 	/*
@@ -105,8 +97,6 @@ class Game {
 		}
 		return score;
 	}
-
-	//-----------------------------------------------
 
 
 	/*the player to give info to*/
@@ -173,15 +163,6 @@ class Game {
 		} 
 	} 
 
-	discard(player, cardPos)
-	{
-		this.discardedCards.push(this.hands[player][cardPos]);
-		this.draw(player,cardPos, this.hands);
-
-	}
-
-
-
 	/*
 	Plays a card from one's hand to the board.
 	*/
@@ -227,20 +208,16 @@ class Game {
 		this.hands[player][cardPos] = card;
 	}
 	
-	//Rearranges the array in order to move cards around in one's hand 
-	/*
-	rearrange(player, cardPos, newPos, hands) {
-		temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
+	discard(player, cardPos)
+	{
+		this.discardedCards.push(this.hands[player][cardPos]);
+		this.draw(player,cardPos, this.hands);
 
-		hands[player][cardPos] = hands[player][newPos];
-
-		hands[player][newPos] = temp;
-	}*/
+	}
 
 	/*
 	Helper function for playCard which determines whether the move is valid or not
 	*/
-	
 	evaluatePlayed(tableNumber, played, player, cardPos) {
 		if(!this.table[tableNumber][0])
 		{
@@ -269,6 +246,14 @@ class Game {
 	    	}
 	  	}
 	}
-	
-
 }
+
+	//Rearranges the array in order to move cards around in one's hand 
+	/*
+	rearrange(player, cardPos, newPos, hands) {
+		temp = new Card(hands[player][cardPos].color,hands[player][cardPos].number);
+
+		hands[player][cardPos] = hands[player][newPos];
+
+		hands[player][newPos] = temp;
+	}*/
