@@ -55,7 +55,7 @@
 		}
 		//the ai. calls one of the 4 funtions in game
 		function aiMove(game) {
-			let move = Math.floor(Math.random() * 4);
+			let move = Math.floor(Math.random() * 2);
 			let targetPlayer = Math.floor(Math.random() * game.players.length);
 			let targetCard = Math.floor(Math.random() * 5);
 			while(!game.hands[targetPlayer][targetCard]){

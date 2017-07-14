@@ -105,7 +105,7 @@ class Game {
 			let col = this.hands[player][cardPos].color;
 			let info = "";
 			for (let i = 0 ; i < 5; i++) {
-				if(this.hands[player][i].color == col)
+				if(this.hands[player][i] && this.hands[player][i].color == col)
 				{
 					info = info + "card " + (i+1) + "  "; 
 				}
@@ -128,7 +128,7 @@ class Game {
 			let number = this.hands[player][cardPos].number;
 			let info = "";
 			for (let i = 0 ; i < 5; i++) {
-				if(this.hands[player][i].number == number)
+				if(this.hands[player][i] && this.hands[player][i].number == number)
 				{
 					info = info + "card " + (i+1) + "  "; 
 				}
